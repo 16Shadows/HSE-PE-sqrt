@@ -14,10 +14,33 @@ namespace PE___sqrt
 
     public partial class Background : Form
     {
+        string activeLanguage;
+
+        enum State
+        {
+            STATE_SUCCESS,
+            STATE_ERROR_INVALID_INPUT,
+            STATE_ERROR_EMPTY_INPUT
+        }
+
+        State state;
+
         public Background()
         {
             InitializeComponent();
-            InputText.Text = locale.Languages["en"].GetPhrase("InputNumber");
+            
+            activeLanguage = "en";
+
+            InputText.Text = locale.Languages[activeLanguage].GetPhrase("InputNumber");
+            labelResult.Text = locale.Languages[activeLanguage].GetPhrase("Result");
+            buttonCalculate.Text = locale.Languages[activeLanguage].GetPhrase("Calculate");
+
+            state = State.STATE_SUCCESS;
+
+            foreach(locale.LanguageEntry entry in locale.Languages.Values)
+                languagesList.Items.Add(entry.LanguageName);
+
+            languagesList.SelectedIndex = 0;
         }
 
         private void button0_Click(object sender, EventArgs e)
@@ -70,20 +93,25 @@ namespace PE___sqrt
         {
             if (inputBox.Text.Length == 0)
             {
-                labelResult.Text = locale.Languages["en"].GetPhrase("ErrorEmpty");
-                textBoxResult.Text = locale.Languages["en"].GetPhrase("Error");
+                labelResult.Text = locale.Languages[activeLanguage].GetPhrase("ErrorEmpty");
+                textBoxResult.Text = locale.Languages[activeLanguage].GetPhrase("Error");
+                state = State.STATE_ERROR_EMPTY_INPUT;
             }
             else if (double.TryParse(inputBox.Text, out double value))
             {
-                labelResult.Text = locale.Languages["en"].GetPhrase("Result");
+                labelResult.Text = locale.Languages[activeLanguage].GetPhrase("Result");
+
+                state = State.STATE_SUCCESS;
 
                 if(value >= 0) textBoxResult.Text = Math.Sqrt(value).ToString();
                 else textBoxResult.Text = Math.Sqrt(Math.Abs(value)).ToString() + 'i';
             }
             else
             {
-                labelResult.Text = locale.Languages["en"].GetPhrase("ErrorInvalidInput");
-                textBoxResult.Text = locale.Languages["en"].GetPhrase("Error");
+                labelResult.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInvalidInput");
+                textBoxResult.Text = locale.Languages[activeLanguage].GetPhrase("Error");
+
+                state = State.STATE_ERROR_INVALID_INPUT;
             }
         }
 
@@ -95,6 +123,33 @@ namespace PE___sqrt
         private void buttonPoint_Click(object sender, EventArgs e)
         {
             inputBox.Text += '.';
+        }
+
+        private void languagesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            activeLanguage = locale.Languages.First(x => { return x.Value.LanguageName.Equals(languagesList.SelectedItem as string); }).Key;
+
+            InputText.Text = locale.Languages[activeLanguage].GetPhrase("InputNumber");
+            buttonCalculate.Text = locale.Languages[activeLanguage].GetPhrase("Calculate");
+
+            switch(state)
+            {
+                case State.STATE_SUCCESS:
+                    {
+                        labelResult.Text = locale.Languages[activeLanguage].GetPhrase("Result");
+                        break;
+                    }
+                case State.STATE_ERROR_EMPTY_INPUT:
+                    {
+                        labelResult.Text = locale.Languages[activeLanguage].GetPhrase("ErrorEmpty");
+                        break;
+                    }
+                case State.STATE_ERROR_INVALID_INPUT:
+                    {
+                        labelResult.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInvalidInput");
+                        break;
+                    }
+            }
         }
     }
 }

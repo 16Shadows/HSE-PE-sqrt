@@ -18,9 +18,9 @@ namespace PE___sqrt
         [STAThread]
         static void Main()
         {
-            if(!locale.Load() || locale.Languages.Count == 0 || !locale.Languages.ContainsKey("en"))
+            if(!locale.Load() && (locale.Languages.Count == 0 || !locale.Languages.ContainsKey("en")))
             {
-                locale.Languages.Add("en", new locale.LanguageEntry("English", new Dictionary<string, string>
+                locale.Languages.Add("en", new locale.LanguageEntry("English 0", new Dictionary<string, string>
                 {
                     { "InputNumber", "Input your number:" },
                     { "ErrorEmpty", "Input is empty" },

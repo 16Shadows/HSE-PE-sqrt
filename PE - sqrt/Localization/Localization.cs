@@ -59,7 +59,7 @@ namespace PE___sqrt.Localization
                         if (languageEntry) return false;
                         else
                         {
-                            languageKey = line.Substring(10);
+                            languageKey = line.Substring(9);
                             if (languageKey?.Length > 0)
                             {
                                 languageEntry = true;
@@ -85,7 +85,7 @@ namespace PE___sqrt.Localization
                             if(languageName != null) return false;
                             else
                             {
-                                languageName = line.Substring(15);
+                                languageName = line.Substring(13);
                                 if(languageName?.Length == 0) return false;
                             }
                         }

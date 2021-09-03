@@ -47,12 +47,13 @@ namespace PE___sqrt
             this.textBoxResult = new System.Windows.Forms.TextBox();
             this.buttonMinus = new System.Windows.Forms.Button();
             this.buttonPoint = new System.Windows.Forms.Button();
+            this.languagesList = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // inputBox
             // 
             this.inputBox.BackColor = System.Drawing.Color.Pink;
-            this.inputBox.Location = new System.Drawing.Point(120, 54);
+            this.inputBox.Location = new System.Drawing.Point(121, 79);
             this.inputBox.Name = "inputBox";
             this.inputBox.Size = new System.Drawing.Size(260, 20);
             this.inputBox.TabIndex = 1;
@@ -64,7 +65,7 @@ namespace PE___sqrt
             // 
             this.InputText.BackColor = System.Drawing.Color.Maroon;
             this.InputText.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.InputText.Location = new System.Drawing.Point(0, 9);
+            this.InputText.Location = new System.Drawing.Point(1, 34);
             this.InputText.Name = "InputText";
             this.InputText.Size = new System.Drawing.Size(483, 31);
             this.InputText.TabIndex = 2;
@@ -75,7 +76,7 @@ namespace PE___sqrt
             // button1
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button1.Location = new System.Drawing.Point(80, 91);
+            this.button1.Location = new System.Drawing.Point(81, 116);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 80);
             this.button1.TabIndex = 3;
@@ -87,7 +88,7 @@ namespace PE___sqrt
             // button2
             // 
             this.button2.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button2.Location = new System.Drawing.Point(170, 91);
+            this.button2.Location = new System.Drawing.Point(171, 116);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 80);
             this.button2.TabIndex = 4;
@@ -99,7 +100,7 @@ namespace PE___sqrt
             // button3
             // 
             this.button3.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button3.Location = new System.Drawing.Point(260, 91);
+            this.button3.Location = new System.Drawing.Point(261, 116);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(80, 80);
             this.button3.TabIndex = 5;
@@ -111,7 +112,7 @@ namespace PE___sqrt
             // button4
             // 
             this.button4.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button4.Location = new System.Drawing.Point(80, 181);
+            this.button4.Location = new System.Drawing.Point(81, 206);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(80, 80);
             this.button4.TabIndex = 6;
@@ -123,7 +124,7 @@ namespace PE___sqrt
             // button5
             // 
             this.button5.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button5.Location = new System.Drawing.Point(170, 181);
+            this.button5.Location = new System.Drawing.Point(171, 206);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(80, 80);
             this.button5.TabIndex = 7;
@@ -135,7 +136,7 @@ namespace PE___sqrt
             // button6
             // 
             this.button6.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button6.Location = new System.Drawing.Point(260, 181);
+            this.button6.Location = new System.Drawing.Point(261, 206);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(80, 80);
             this.button6.TabIndex = 8;
@@ -147,7 +148,7 @@ namespace PE___sqrt
             // button7
             // 
             this.button7.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button7.Location = new System.Drawing.Point(80, 271);
+            this.button7.Location = new System.Drawing.Point(81, 296);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(80, 80);
             this.button7.TabIndex = 9;
@@ -159,7 +160,7 @@ namespace PE___sqrt
             // button8
             // 
             this.button8.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button8.Location = new System.Drawing.Point(170, 271);
+            this.button8.Location = new System.Drawing.Point(171, 296);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(80, 80);
             this.button8.TabIndex = 10;
@@ -171,7 +172,7 @@ namespace PE___sqrt
             // button9
             // 
             this.button9.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button9.Location = new System.Drawing.Point(260, 271);
+            this.button9.Location = new System.Drawing.Point(261, 296);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(80, 80);
             this.button9.TabIndex = 11;
@@ -183,7 +184,7 @@ namespace PE___sqrt
             // button0
             // 
             this.button0.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.button0.Location = new System.Drawing.Point(80, 365);
+            this.button0.Location = new System.Drawing.Point(81, 390);
             this.button0.Name = "button0";
             this.button0.Size = new System.Drawing.Size(170, 60);
             this.button0.TabIndex = 12;
@@ -195,7 +196,7 @@ namespace PE___sqrt
             // buttonErase
             // 
             this.buttonErase.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.buttonErase.Location = new System.Drawing.Point(350, 91);
+            this.buttonErase.Location = new System.Drawing.Point(351, 116);
             this.buttonErase.Name = "buttonErase";
             this.buttonErase.Size = new System.Drawing.Size(80, 80);
             this.buttonErase.TabIndex = 13;
@@ -207,7 +208,7 @@ namespace PE___sqrt
             // buttonCalculate
             // 
             this.buttonCalculate.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.buttonCalculate.Location = new System.Drawing.Point(260, 365);
+            this.buttonCalculate.Location = new System.Drawing.Point(261, 390);
             this.buttonCalculate.Name = "buttonCalculate";
             this.buttonCalculate.Size = new System.Drawing.Size(170, 60);
             this.buttonCalculate.TabIndex = 14;
@@ -220,7 +221,7 @@ namespace PE___sqrt
             // 
             this.labelResult.BackColor = System.Drawing.Color.Maroon;
             this.labelResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelResult.Location = new System.Drawing.Point(0, 443);
+            this.labelResult.Location = new System.Drawing.Point(1, 468);
             this.labelResult.Name = "labelResult";
             this.labelResult.Size = new System.Drawing.Size(483, 31);
             this.labelResult.TabIndex = 15;
@@ -229,7 +230,7 @@ namespace PE___sqrt
             // 
             // textBoxResult
             // 
-            this.textBoxResult.Location = new System.Drawing.Point(120, 489);
+            this.textBoxResult.Location = new System.Drawing.Point(121, 514);
             this.textBoxResult.Name = "textBoxResult";
             this.textBoxResult.ReadOnly = true;
             this.textBoxResult.Size = new System.Drawing.Size(260, 20);
@@ -240,7 +241,7 @@ namespace PE___sqrt
             // 
             this.buttonMinus.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.buttonMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonMinus.Location = new System.Drawing.Point(350, 181);
+            this.buttonMinus.Location = new System.Drawing.Point(351, 206);
             this.buttonMinus.Name = "buttonMinus";
             this.buttonMinus.Size = new System.Drawing.Size(80, 80);
             this.buttonMinus.TabIndex = 17;
@@ -253,7 +254,7 @@ namespace PE___sqrt
             // 
             this.buttonPoint.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.buttonPoint.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonPoint.Location = new System.Drawing.Point(350, 271);
+            this.buttonPoint.Location = new System.Drawing.Point(351, 296);
             this.buttonPoint.Name = "buttonPoint";
             this.buttonPoint.Size = new System.Drawing.Size(80, 80);
             this.buttonPoint.TabIndex = 18;
@@ -262,6 +263,16 @@ namespace PE___sqrt
             this.buttonPoint.UseVisualStyleBackColor = false;
             this.buttonPoint.Click += new System.EventHandler(this.buttonPoint_Click);
             // 
+            // languagesList
+            // 
+            this.languagesList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.languagesList.FormattingEnabled = true;
+            this.languagesList.Location = new System.Drawing.Point(150, 10);
+            this.languagesList.Name = "languagesList";
+            this.languagesList.Size = new System.Drawing.Size(200, 21);
+            this.languagesList.TabIndex = 19;
+            this.languagesList.SelectedIndexChanged += new System.EventHandler(this.languagesList_SelectedIndexChanged);
+            // 
             // Background
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,7 +280,8 @@ namespace PE___sqrt
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.Maroon;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(484, 527);
+            this.ClientSize = new System.Drawing.Size(484, 549);
+            this.Controls.Add(this.languagesList);
             this.Controls.Add(this.buttonPoint);
             this.Controls.Add(this.buttonMinus);
             this.Controls.Add(this.textBoxResult);
@@ -322,6 +334,7 @@ namespace PE___sqrt
         private System.Windows.Forms.TextBox textBoxResult;
         private System.Windows.Forms.Button buttonMinus;
         private System.Windows.Forms.Button buttonPoint;
+        private System.Windows.Forms.ComboBox languagesList;
     }
 }
 

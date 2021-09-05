@@ -58,13 +58,13 @@ namespace PE___sqrt
             // ProgramMenu
             // 
             this.ProgramMenu.AllowMerge = false;
-            this.ProgramMenu.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ProgramMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(196)))), ((int)(((byte)(238)))));
             this.ProgramMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsMenuItem,
             this.supportMenuItem});
             this.ProgramMenu.Location = new System.Drawing.Point(0, 0);
             this.ProgramMenu.Name = "ProgramMenu";
-            this.ProgramMenu.Size = new System.Drawing.Size(767, 24);
+            this.ProgramMenu.Size = new System.Drawing.Size(769, 24);
             this.ProgramMenu.TabIndex = 0;
             this.ProgramMenu.Text = "ProgramMenu";
             // 
@@ -81,13 +81,13 @@ namespace PE___sqrt
             // languagesMenuItem
             // 
             this.languagesMenuItem.Name = "languagesMenuItem";
-            this.languagesMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.languagesMenuItem.Size = new System.Drawing.Size(180, 22);
             this.languagesMenuItem.Text = "Language";
             // 
             // precisionMenuItem
             // 
             this.precisionMenuItem.Name = "precisionMenuItem";
-            this.precisionMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.precisionMenuItem.Size = new System.Drawing.Size(180, 22);
             this.precisionMenuItem.Text = "Precision";
             // 
             // supportMenuItem
@@ -305,7 +305,7 @@ namespace PE___sqrt
             this.buttonErase.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.buttonErase.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonErase.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonErase.Location = new System.Drawing.Point(282, 104);
+            this.buttonErase.Location = new System.Drawing.Point(283, 104);
             this.buttonErase.Name = "buttonErase";
             this.buttonErase.Size = new System.Drawing.Size(80, 80);
             this.buttonErase.TabIndex = 15;
@@ -335,9 +335,9 @@ namespace PE___sqrt
             this.buttonCalculate.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.buttonCalculate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonCalculate.Location = new System.Drawing.Point(282, 284);
+            this.buttonCalculate.Location = new System.Drawing.Point(283, 284);
             this.buttonCalculate.Name = "buttonCalculate";
-            this.buttonCalculate.Size = new System.Drawing.Size(80, 80);
+            this.buttonCalculate.Size = new System.Drawing.Size(80, 170);
             this.buttonCalculate.TabIndex = 17;
             this.buttonCalculate.TabStop = false;
             this.buttonCalculate.Text = "=";
@@ -357,8 +357,8 @@ namespace PE___sqrt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(767, 465);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(196)))), ((int)(((byte)(238)))));
+            this.ClientSize = new System.Drawing.Size(769, 465);
             this.Controls.Add(this.historyBox);
             this.Controls.Add(this.buttonCalculate);
             this.Controls.Add(this.buttonEraseAll);
@@ -386,6 +386,7 @@ namespace PE___sqrt
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Time to sqrt";
+            this.Load += new System.EventHandler(this.ProgramWindow_Load);
             this.ProgramMenu.ResumeLayout(false);
             this.ProgramMenu.PerformLayout();
             this.ResumeLayout(false);

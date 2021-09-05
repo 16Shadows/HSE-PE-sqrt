@@ -185,5 +185,10 @@ namespace PE___sqrt
                 //inputField.Text = value.SqrtNewton(3).ToString(10);
             }
         }
+
+        private void ProgramWindow_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace PE___sqrt.Localization
 
         static public Dictionary<string, LanguageEntry> Languages { get; private set; }
 
-        static public bool Load(string file = "locale.dat")
+        public static bool Load(string file = "locale.dat")
         {
             if(file == null) return false;
 

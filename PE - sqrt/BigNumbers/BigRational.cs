@@ -46,7 +46,7 @@ namespace PE___sqrt.BigNumbers
         {
             precision = precision>99?99:precision<0?0:precision;
 
-            string str = value.ToString("F"+precision);
+            string str = value.ToString("F"+precision, CultureInfo.InvariantCulture);
 
             BigRational res = Parse(str);
             return res;

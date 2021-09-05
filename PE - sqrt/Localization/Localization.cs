@@ -42,58 +42,62 @@ namespace PE___sqrt.Localization
 
             Languages.Clear();
 
-            using(StreamReader reader = new StreamReader(file))
+            try
             {
-                string line = null;
-
-                int index;
-                bool languageEntry = false;
-                string languageKey = null;
-                string languageName = null;
-                Dictionary<string, string> languagePhrases = null;
-
-                while( (line = reader.ReadLine()) != null)
+                using(StreamReader reader = new StreamReader(file))
                 {
-                    if (line.StartsWith("LANGUAGE "))
+                    string line = null;
+
+                    int index;
+                    bool languageEntry = false;
+                    string languageKey = null;
+                    string languageName = null;
+                    Dictionary<string, string> languagePhrases = null;
+
+                    while( (line = reader.ReadLine()) != null)
                     {
-                        if (languageEntry) return false;
-                        else
+                        if (line.StartsWith("LANGUAGE "))
                         {
-                            languageKey = line.Substring(9);
-                            if (languageKey?.Length > 0)
-                            {
-                                languageEntry = true;
-                                languageName = null;
-                                languagePhrases = new Dictionary<string, string>();
-                            }
-                            else return false;
-                        }
-                    }
-                    else if (line.StartsWith("ENDLANGUAGE"))
-                    {
-                        if(!languageEntry) return false;
-                        else
-                        {
-                            languageEntry = false;
-                            Languages.Add(languageKey, new LanguageEntry(languageName, languagePhrases));
-                        }
-                    }
-                    else if(languageEntry)
-                    {
-                        if(line.StartsWith("LanguageName "))
-                        {
-                            if(languageName != null) return false;
+                            if (languageEntry) return false;
                             else
                             {
-                                languageName = line.Substring(13);
-                                if(languageName?.Length == 0) return false;
+                                languageKey = line.Substring(9);
+                                if (languageKey?.Length > 0)
+                                {
+                                    languageEntry = true;
+                                    languageName = null;
+                                    languagePhrases = new Dictionary<string, string>();
+                                }
+                                else return false;
                             }
                         }
-                        else if( (index = line.IndexOf(' ')) != -1 ) languagePhrases.Add(line.Substring(0, index), line.Substring(index+1) );
+                        else if (line.StartsWith("ENDLANGUAGE"))
+                        {
+                            if(!languageEntry) return false;
+                            else
+                            {
+                                languageEntry = false;
+                                Languages.Add(languageKey, new LanguageEntry(languageName, languagePhrases));
+                            }
+                        }
+                        else if(languageEntry)
+                        {
+                            if(line.StartsWith("LanguageName "))
+                            {
+                                if(languageName != null) return false;
+                                else
+                                {
+                                    languageName = line.Substring(13);
+                                    if(languageName?.Length == 0) return false;
+                                }
+                            }
+                            else if( (index = line.IndexOf(' ')) != -1 ) languagePhrases.Add(line.Substring(0, index), line.Substring(index+1) );
+                        }
                     }
-                }
 
+                }
             }
+            catch { }
 
             return true;
         }

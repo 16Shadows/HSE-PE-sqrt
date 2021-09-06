@@ -28,7 +28,7 @@ namespace PE___sqrt
 
             InitializeComponent();
 
-            HideUI();
+            SetUIActive(false);
         }
 
         public void OnLocaleLoaded()
@@ -40,7 +40,9 @@ namespace PE___sqrt
                     { "Languages", "Languages" },
                     { "Support", "Support" },
                     { "Settings", "Settings" },
-                    { "Precision", "Precision" }
+                    { "Precision", "Precision" },
+                    { "ErrorInputEmpty", "Error: Input field is empty" },
+                    { "ErrorInputInvalid", "Error: {0} is not a valid number" }
                 }));
             }
 
@@ -67,7 +69,8 @@ namespace PE___sqrt
                 i++;
             }
 
-            ShowUI();
+            ReloadLocalizedItems();
+            SetUIActive(true);
         }
 
         void ReloadLocalizedItems()
@@ -94,14 +97,47 @@ namespace PE___sqrt
             ReloadLocalizedItems();
         }
 
-        void HideUI()
+        void SetUIActive(bool active = true)
         {
-
+            ProgramMenu.Visible = active;
+            inputField.Visible = active;
+            errorField.Visible = active;
+            historyBox.Visible = active;
+            button0.Visible = active;
+            button1.Visible = active;
+            button2.Visible = active;
+            button3.Visible = active;
+            button4.Visible = active;
+            button5.Visible = active;
+            button6.Visible = active;
+            button7.Visible = active;
+            button8.Visible = active;
+            button9.Visible = active;
+            buttonErase.Visible = active;
+            buttonEraseAll.Visible = active;
+            buttonCalculate.Visible = active;
+            buttonPoint.Visible = active;
+            buttonMinus.Visible = active;
         }
 
-        void ShowUI()
+        void SetInputActive(bool active = true)
         {
-            
+            inputField.ReadOnly = !active;
+            button0.Enabled = active;
+            button1.Enabled = active;
+            button2.Enabled = active;
+            button3.Enabled = active;
+            button4.Enabled = active;
+            button5.Enabled = active;
+            button6.Enabled = active;
+            button7.Enabled = active;
+            button8.Enabled = active;
+            button9.Enabled = active;
+            buttonMinus.Enabled = active;
+            buttonPoint.Enabled = active;
+            buttonErase.Enabled = active;
+            buttonEraseAll.Enabled = active;
+            buttonCalculate.Enabled = active;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -177,18 +213,41 @@ namespace PE___sqrt
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
-            errorField.Text = "Trying to parse " + inputField.Text;
-            if(BigNumbers.BigRational.TryParse(inputField.Text, out BigNumbers.BigRational value))
+            if(inputField.Text.Length == 0)
             {
-                //inputField.Text = value.SqrtFast().ToString("F99");
-                inputField.Text = value.Sqrt().ToString(10);
-                //inputField.Text = value.SqrtNewton(3).ToString(10);
+                errorField.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInputEmpty");
+            }
+            else if(BigNumbers.BigRational.TryParse(inputField.Text, out BigNumbers.BigRational value))
+            {
+                SetInputActive(false);
+                errorField.Text = "Calculating...";
+
+                
+                if(value >= BigNumbers.BigRational.Zero)
+                {
+                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.SqrtDigit(value, 10); } );
+                   calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(calcTask.Result) );
+                }
+                else
+                {
+                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.SqrtDigit(value.Abs(), 10); } );
+                    calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(calcTask.Result, true) );
+                }
+                
+            }
+            else
+            {
+                errorField.Text = string.Format(locale.Languages[activeLanguage].GetPhrase("ErrorInputInvalid"), inputField.Text);
             }
         }
 
-        private void ProgramWindow_Load(object sender, EventArgs e)
+        void OnResultCalculated(BigNumbers.BigRational value, bool negative = false)
         {
-
+            errorField.Text = "Done";
+            if(negative) inputField.Text = value.ToString(10) + 'i';
+            else inputField.Text = value.ToString(10);
+            SetInputActive(true);
         }
+
     }
 }

@@ -81,13 +81,13 @@ namespace PE___sqrt
             // languagesMenuItem
             // 
             this.languagesMenuItem.Name = "languagesMenuItem";
-            this.languagesMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.languagesMenuItem.Size = new System.Drawing.Size(126, 22);
             this.languagesMenuItem.Text = "Language";
             // 
             // precisionMenuItem
             // 
             this.precisionMenuItem.Name = "precisionMenuItem";
-            this.precisionMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.precisionMenuItem.Size = new System.Drawing.Size(126, 22);
             this.precisionMenuItem.Text = "Precision";
             // 
             // supportMenuItem
@@ -114,7 +114,6 @@ namespace PE___sqrt
             this.errorField.Location = new System.Drawing.Point(12, 71);
             this.errorField.Name = "errorField";
             this.errorField.ReadOnly = true;
-            this.errorField.ShortcutsEnabled = false;
             this.errorField.Size = new System.Drawing.Size(743, 23);
             this.errorField.TabIndex = 2;
             this.errorField.TabStop = false;
@@ -349,6 +348,7 @@ namespace PE___sqrt
             this.historyBox.Location = new System.Drawing.Point(369, 101);
             this.historyBox.Multiline = true;
             this.historyBox.Name = "historyBox";
+            this.historyBox.ReadOnly = true;
             this.historyBox.Size = new System.Drawing.Size(386, 353);
             this.historyBox.TabIndex = 18;
             this.historyBox.WordWrap = false;
@@ -386,7 +386,6 @@ namespace PE___sqrt
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Time to sqrt";
-            this.Load += new System.EventHandler(this.ProgramWindow_Load);
             this.ProgramMenu.ResumeLayout(false);
             this.ProgramMenu.PerformLayout();
             this.ResumeLayout(false);

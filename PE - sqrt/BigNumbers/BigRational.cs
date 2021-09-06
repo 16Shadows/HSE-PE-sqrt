@@ -7,15 +7,22 @@ using System.Globalization;
 
 namespace PE___sqrt.BigNumbers
 {
-    struct BigRational : IComparable<BigRational>, IEquatable<BigRational>
+    class BigRational : IComparable<BigRational>, IEquatable<BigRational>
     {
         public static readonly BigRational Zero = new BigRational(0, 1);
         public static readonly BigRational One = new BigRational(1, 1);
         public static readonly BigRational MinusOne = new BigRational(-1, 1);
         public static readonly BigRational Half = new BigRational(1, 2);
+        public static readonly BigRational Two = new BigRational(2, 1);
 
         private BigInteger numerator;
         private BigInteger denominator;
+
+        public BigRational()
+        {
+            numerator = 0;
+            denominator = 1;
+        }
 
         public BigRational(BigInteger num)
         {
@@ -25,8 +32,16 @@ namespace PE___sqrt.BigNumbers
 
         public BigRational(BigInteger num, BigInteger denum)
         {
-            numerator = num;
-            denominator = denum;
+            if(denominator < 0)
+            {
+                numerator = num * -1;
+                denominator = denum * -1;
+            }
+            else
+            {
+                numerator = num;
+                denominator = denum;
+            }
         }
 
         public BigRational(BigRational other)
@@ -52,7 +67,14 @@ namespace PE___sqrt.BigNumbers
             return res;
         }
 
-        public void Reduce()
+        public BigRational CopyFrom(BigRational other)
+        {
+            numerator = other.numerator;
+            denominator = other.denominator;
+            return this;
+        }
+
+        public BigRational Reduce()
         {
             BigInteger gcd = BigInteger.GreatestCommonDivisor(numerator, denominator);
 
@@ -61,6 +83,8 @@ namespace PE___sqrt.BigNumbers
                 numerator /= gcd;
                 denominator /= gcd;
             }
+            
+            return this;
         }
 
         private static readonly char[] parseToTrim1 = { '0' };
@@ -267,26 +291,67 @@ namespace PE___sqrt.BigNumbers
             return result;
         }
 
+        public static BigRational SqrtDigit(BigRational value, int precision = 0)
+        {
+            BigRational result = new BigRational();
+
+            //Step 1 - shift
+            BigInteger decimals = BigInteger.Divide( value.numerator * BigInteger.Pow(10, precision*2), value.denominator );
+
+            //Step 2 - calculate sqrt of decimals
+            double ddigits = BigInteger.Log10(decimals);
+
+            if(ddigits > Int32.MaxValue) return Zero;
+            int digits = ((int)ddigits) - 1;
+
+            BigInteger divisor = BigInteger.Pow(10, digits%2==0?digits:digits+1);
+            BigInteger temp;
+            BigInteger temp2;
+            BigInteger temp3;
+            BigInteger sqrtValue;
+
+            int digit;
+
+            temp = BigInteger.DivRem(decimals, divisor, out decimals);
+            divisor /= 100;
+            sqrtValue = (int)Math.Sqrt((int)temp);
+            temp -= sqrtValue * sqrtValue;
+
+            int i = 0;
+            for(; i < digits; i += 2)
+            {
+                temp = temp * 100 + BigInteger.DivRem(decimals, divisor, out decimals);
+                divisor /= 100;
+                temp2 = sqrtValue * 20;
+                digit = 0;
+                do
+                {
+                    ++digit;
+                    temp3 = (temp2 + digit) * digit;
+                }
+                while( temp >= temp3 );
+                --digit;
+                temp = temp - (temp2 + digit) * digit;
+                sqrtValue = sqrtValue*10 + digit;
+            }
+
+            //Step 3 - return result
+            return new BigRational(sqrtValue, BigInteger.Pow(10, precision)).Reduce();
+        }
+
         //Arbitrary precision and input size but very slow
         public BigRational SqrtNewton(int precision = 0)
         {
             BigRational delta = new BigRational(1, BigInteger.Pow(10, precision));
             BigRational result = BigRational.FromDouble(BigInteger.Log(numerator) - BigInteger.Log(denominator), 99);
-            BigRational square = Sqr(result);
-            square.Subtract(this);
-            square.Abs();
-            BigRational temp;
+            BigRational square = Sqr(result).Subtract(this).Abs();
+            BigRational temp = new BigRational();
 
             while( square > delta )
             {
-                temp = this;
-                temp.Divide(result, false);
-                temp.Add(result, false);
-                temp.Multiply(Half);
-                square = result = temp;
-                square.Sqr();
-                square.Subtract(this, false);
-                square.Abs();
+                temp.CopyFrom(this).Divide(result, false).Add(result, false).Multiply(Half);
+                square.CopyFrom(result.CopyFrom(temp));
+                square.Sqr().Subtract(this, false).Abs();
             }
             
             return result;
@@ -322,23 +387,42 @@ namespace PE___sqrt.BigNumbers
             return lhs.CompareTo(rhs)!=1;
         }
 
+        public string ToRationalString()
+        {
+            return $"{numerator} / {denominator}";
+        }
+
         public string ToString(int precision = 0)
         {
-            string result;
+            BigRational value = Abs(this);
+
+            string result = "";
+
+            if(this < Zero) result += '-';
 
             BigInteger remainder;
-            BigInteger quotient = BigInteger.DivRem(numerator, denominator, out remainder);
+            BigInteger quotient = BigInteger.DivRem(value.numerator, value.denominator, out remainder);
 
             if(precision > 0 && remainder > 0)
             {
-                int digits = (int)Math.Floor(BigInteger.Log10(quotient));
-
-                quotient = BigInteger.Divide( numerator * BigInteger.Pow(10, precision), denominator );
-
-                result = quotient.ToString(CultureInfo.InvariantCulture);
-                result = result.Insert(digits+1, ".").TrimEnd(parseToTrim1);
+                int digits;
+                if(quotient > 0)
+                {
+                    digits = (int)Math.Floor(BigInteger.Log10(quotient));
+                    quotient = BigInteger.Divide( value.numerator * BigInteger.Pow(10, precision), value.denominator );
+                    result += quotient.ToString(CultureInfo.InvariantCulture);
+                    result = result.Insert(this<Zero?digits+2:digits+1, ".").TrimEnd(parseToTrim1);
+                }
+                else
+                {
+                    result += "0.";
+                    quotient = BigInteger.Divide( value.numerator * BigInteger.Pow(10, precision), value.denominator );
+                    digits = (int)Math.Floor(BigInteger.Log10(quotient));
+                    result += new string('0', precision - digits - 1);
+                    result += quotient.ToString().TrimEnd(parseToTrim1);
+                }
             }
-            else result = quotient.ToString(CultureInfo.InvariantCulture);
+            else result += quotient.ToString(CultureInfo.InvariantCulture);
 
             return result;
         }

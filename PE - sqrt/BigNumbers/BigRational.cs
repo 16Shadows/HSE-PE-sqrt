@@ -1,8 +1,5 @@
 ﻿using System.Numerics;
-using System.Collections.Generic;
 using System;
-using System.Text;
-using System.Threading.Tasks;
 using System.Globalization;
 
 namespace PE___sqrt.BigNumbers
@@ -65,13 +62,6 @@ namespace PE___sqrt.BigNumbers
 
             BigRational res = Parse(str);
             return res;
-        }
-
-        public BigRational CopyFrom(BigRational other)
-        {
-            numerator = other.numerator;
-            denominator = other.denominator;
-            return this;
         }
 
         public BigRational Reduce()
@@ -253,52 +243,14 @@ namespace PE___sqrt.BigNumbers
             return new BigRational(value.numerator*value.numerator, value.denominator*value.denominator);
         }
 
-        public double SqrtFast()
-        {
-            return (Math.Pow(10, BigInteger.Log10(numerator)/2))/(Math.Pow(10, BigInteger.Log10(denominator)/2));
-        }
-
-        public BigRational Sqrt()
-        {
-            BigRational result = new BigRational();
-            result.denominator = 1;
-
-            double log = BigInteger.Log10(numerator)/2;
-
-            if(log > Int32.MaxValue) return Zero;
-            
-            int whole = (int)Math.Floor(log);
-            log -= whole;
-
-            result.numerator = BigInteger.Pow(10, whole);
-            BigRational extra = BigRational.FromDouble(Math.Pow(10, log), 99);
-            result.Multiply(extra);
-
-            log = BigInteger.Log10(denominator)/2;
-
-            if(log > Int32.MaxValue) return Zero;
-            
-            whole = (int)Math.Floor(log);
-            log -= whole;
-
-            extra.numerator = BigInteger.Pow(10, whole);
-            extra.denominator = 1;
-            BigRational extra2 = BigRational.FromDouble(Math.Pow(10, log), 99);
-            extra.Multiply(extra2);
-
-            result.Divide(extra);
-
-            return result;
-        }
-
-        public static BigRational SqrtDigit(BigRational value, int precision = 0)
+        public static BigRational Sqrt(BigRational value, int precision = 0)
         {
             BigRational result = new BigRational();
 
             //Step 1 - shift
             BigInteger decimals = BigInteger.Divide( value.numerator * BigInteger.Pow(10, precision*2), value.denominator );
 
-            //Step 2 - calculate sqrt of decimals
+            //Step 2 - calculate sqrt of decimals digit by digit
             double ddigits = BigInteger.Log10(decimals);
 
             if(ddigits > Int32.MaxValue) return Zero;
@@ -331,30 +283,12 @@ namespace PE___sqrt.BigNumbers
                 }
                 while( temp >= temp3 );
                 --digit;
-                temp = temp - (temp2 + digit) * digit;
+                temp -= (temp2 + digit) * digit;
                 sqrtValue = sqrtValue*10 + digit;
             }
 
             //Step 3 - return result
             return new BigRational(sqrtValue, BigInteger.Pow(10, precision)).Reduce();
-        }
-
-        //Arbitrary precision and input size but very slow
-        public BigRational SqrtNewton(int precision = 0)
-        {
-            BigRational delta = new BigRational(1, BigInteger.Pow(10, precision));
-            BigRational result = BigRational.FromDouble(BigInteger.Log(numerator) - BigInteger.Log(denominator), 99);
-            BigRational square = Sqr(result).Subtract(this).Abs();
-            BigRational temp = new BigRational();
-
-            while( square > delta )
-            {
-                temp.CopyFrom(this).Divide(result, false).Add(result, false).Multiply(Half);
-                square.CopyFrom(result.CopyFrom(temp));
-                square.Sqr().Subtract(this, false).Abs();
-            }
-            
-            return result;
         }
 
         public static BigRational Abs(BigRational value)

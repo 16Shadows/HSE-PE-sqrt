@@ -89,6 +89,7 @@ namespace PE___sqrt
             this.precisionMenuItem.Name = "precisionMenuItem";
             this.precisionMenuItem.Size = new System.Drawing.Size(126, 22);
             this.precisionMenuItem.Text = "Precision";
+            this.precisionMenuItem.Click += new System.EventHandler(this.precisionMenuItem_Click);
             // 
             // supportMenuItem
             // 
@@ -99,6 +100,7 @@ namespace PE___sqrt
             // inputField
             // 
             this.inputField.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.inputField.HideSelection = false;
             this.inputField.Location = new System.Drawing.Point(12, 27);
             this.inputField.Name = "inputField";
             this.inputField.Size = new System.Drawing.Size(743, 38);
@@ -106,6 +108,7 @@ namespace PE___sqrt
             this.inputField.TabStop = false;
             this.inputField.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.inputField.WordWrap = false;
+            this.inputField.TextChanged += new System.EventHandler(this.inputField_TextChanged);
             // 
             // errorField
             // 
@@ -349,6 +352,7 @@ namespace PE___sqrt
             this.historyBox.Multiline = true;
             this.historyBox.Name = "historyBox";
             this.historyBox.ReadOnly = true;
+            this.historyBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.historyBox.Size = new System.Drawing.Size(386, 353);
             this.historyBox.TabIndex = 18;
             this.historyBox.WordWrap = false;

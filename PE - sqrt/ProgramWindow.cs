@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,17 +12,23 @@ namespace PE___sqrt
     {
         private string activeLanguage;
         private int activeLanguageItem;
+        private int precision;
+        private int historyLength;
 
         private ToolStripMenuItem[] languageItems;
 
         public ProgramWindow()
         {
             activeLanguage = "en";
+            precision = 5;
+            historyLength = 0;
 
             Task<bool> loadTask = Task.Run( () => locale.Load() );
             loadTask.GetAwaiter().OnCompleted(OnLocaleLoaded);
 
             InitializeComponent();
+
+            AcceptButton = buttonCalculate;
 
             SetUIActive(false);
         }
@@ -143,67 +145,99 @@ namespace PE___sqrt
         private void button1_Click(object sender, EventArgs e)
         {
             inputField.Text += '1';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             inputField.Text += '2';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             inputField.Text += '3';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             inputField.Text += '4';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             inputField.Text += '5';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             inputField.Text += '6';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
             inputField.Text += '7';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
             inputField.Text += '8';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
             inputField.Text += '9';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void button0_Click(object sender, EventArgs e)
         {
             inputField.Text += '0';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void buttonMinus_Click(object sender, EventArgs e)
         {
-            inputField.Text += '-';
+            if(inputField.Text.IndexOf('-') == 0)
+            {
+                inputField.Text = inputField.Text.Substring(1);
+                buttonMinus.Text = "-";
+            }
+            else
+            {
+                inputField.Text = "-" + inputField.Text;
+                buttonMinus.Text = "+";
+            }
+
+            inputField.SelectionStart = inputField.Text.Length;
+        }
+
+        private void inputField_TextChanged(object sender, EventArgs e)
+        {
+            if(inputField.Text.IndexOf('-') == 0) buttonMinus.Text = "+";
+            else buttonMinus.Text = "-";
         }
 
         private void buttonPoint_Click(object sender, EventArgs e)
         {
-            inputField.Text += '.';
+            if(inputField.Text.IndexOf('.') == -1)
+                inputField.Text += '.';
+
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void buttonErase_Click(object sender, EventArgs e)
         {
             if(inputField.Text.Length > 0)
                 inputField.Text = inputField.Text.Remove(inputField.Text.Length-1, 1);
+
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void buttonEraseAll_Click(object sender, EventArgs e)
@@ -213,10 +247,7 @@ namespace PE___sqrt
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
-            if(inputField.Text.Length == 0)
-            {
-                errorField.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInputEmpty");
-            }
+            if(inputField.Text.Length == 0) errorField.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInputEmpty");
             else if(BigNumbers.BigRational.TryParse(inputField.Text, out BigNumbers.BigRational value))
             {
                 SetInputActive(false);
@@ -225,29 +256,76 @@ namespace PE___sqrt
                 
                 if(value >= BigNumbers.BigRational.Zero)
                 {
-                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.SqrtDigit(value, 10); } );
-                   calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(calcTask.Result) );
+                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.Sqrt(value, precision); } );
+                   calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(value, calcTask.Result) );
                 }
                 else
                 {
-                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.SqrtDigit(value.Abs(), 10); } );
-                    calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(calcTask.Result, true) );
+                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.Sqrt(value.Abs(), precision); } );
+                    calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(value, calcTask.Result, true) );
                 }
                 
             }
+            else errorField.Text = string.Format(locale.Languages[activeLanguage].GetPhrase("ErrorInputInvalid"), inputField.Text);
+        }
+
+        void AppendHistoryLine(string line)
+        {
+            if(historyLength == 0)  
+            {
+                ++historyLength;
+                historyBox.Text = line;
+            }
+            else if(historyLength < 25)
+            {
+                ++historyLength;
+                historyBox.Text += "\r\n" + line;
+            }
             else
             {
-                errorField.Text = string.Format(locale.Languages[activeLanguage].GetPhrase("ErrorInputInvalid"), inputField.Text);
+                historyBox.Text = historyBox.Text.Substring(historyBox.Text.IndexOf("\r\n")+2) + "\r\n" + line;
             }
         }
 
-        void OnResultCalculated(BigNumbers.BigRational value, bool negative = false)
+        void OnResultCalculated(BigNumbers.BigRational source, BigNumbers.BigRational value, bool negative = false)
         {
             errorField.Text = "Done";
-            if(negative) inputField.Text = value.ToString(10) + 'i';
-            else inputField.Text = value.ToString(10);
+            if(negative)
+            {
+                inputField.Text = value.ToString(precision) + 'i';
+                AppendHistoryLine("sqrt(-" + source.ToString(precision) + ") = " + inputField.Text);
+            }
+            else
+            {
+                inputField.Text = value.ToString(precision);
+                AppendHistoryLine("sqrt(" + source.ToString(precision) + ") = " + inputField.Text);
+            }
             SetInputActive(true);
         }
 
+        private void precisionMenuItem_Click(object sender, EventArgs e)
+        {
+            InputMessageBox precisionInput = new InputMessageBox(locale.Languages[activeLanguage].GetPhrase("PrecisionBoxCaption"),
+                                                                 locale.Languages[activeLanguage].GetPhrase("PrecisionBoxText"),
+                                                                 locale.Languages[activeLanguage].GetPhrase("InputBoxButtonOk"),
+                                                                 locale.Languages[activeLanguage].GetPhrase("InputBoxButtonCancel"));
+
+            if(precisionInput.ShowDialog() == DialogResult.OK)
+            {
+                int prec;
+                while( !int.TryParse(precisionInput.inputBox.Text, out prec) || prec < 0 )
+                {
+                    MessageBox.Show(this, locale.Languages[activeLanguage].GetPhrase("PrecisionParseFailed"),
+                                          locale.Languages[activeLanguage].GetPhrase("Error"),
+                                          MessageBoxButtons.OK);
+
+                    if(precisionInput.ShowDialog(this) != DialogResult.OK) return;
+                }
+
+                precision = prec;
+            }
+
+            precisionInput.Dispose();
+        }
     }
 }

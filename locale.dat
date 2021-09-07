@@ -18,7 +18,7 @@ LANGUAGE ru
 LanguageName Русский
 Languages Языки
 Support Поддержка
-Settings Настройки
+Settings Настройки 
 Precision Точность
 Error Ошибка
 ErrorInputEmpty Ошибка: Поле ввода пустое
@@ -28,4 +28,52 @@ PrecisionBoxText Укажите точность (число знаков в д�
 InputBoxButtonOk ОК
 InputBoxButtonCancel Отмена
 PrecisionParseFailed Укажите неотрицательное целое число!
+ENDLANGUAGE
+
+LANGUAGE es
+LanguageName Español
+Languages Idiomas
+Support Apoyo
+Settings Ajustes
+Precision Precisión
+Error Error
+ErrorInputEmpty Error: El campo de entrada está vacío
+ErrorInputInvalid Error: '{0}' No es un número válido
+PrecisionBoxCaption Precisión
+PrecisionBoxText Input precision (número de dígitos en la parte fraccionaria):
+InputBoxButtonOk OK
+InputBoxButtonCancel Cancelar
+PrecisionParseFailed ¡Ingrese un número entero no negativo!
+ENDLANGUAGE
+
+LANGUAGE hi
+LanguageName हिन्दी
+Languages बोली
+Support बोली
+Settings समायोजन
+Precision शुद्धता
+Error त्रुटि
+ErrorInputEmpty त्रुटि: इनपुट फ़ील्ड खाली है
+ErrorInputInvalid त्रुटि: '{0}' वैध संख्या नहीं है
+PrecisionBoxCaption शुद्धता
+PrecisionBoxText इनपुट परिशुद्धता (आंशिक भाग में अंकों की संख्या):
+InputBoxButtonOk OK
+InputBoxButtonCancel रद्द करें
+PrecisionParseFailed एक गैर-ऋणात्मक पूर्ण संख्या दर्ज करें!
+ENDLANGUAGE
+
+LANGUAGE zh
+LanguageName 中文
+Languages 语言
+Support 支持
+Settings 设置
+Precision 精确
+Error 错误
+ErrorInputEmpty 错误: 输入字段为空
+ErrorInputInvalid 错误: '{0}' 不是有效数字
+PrecisionBoxCaption 精确
+PrecisionBoxText 输入精度（小数部分的位数）
+InputBoxButtonOk OK
+InputBoxButtonCancel 取消
+PrecisionParseFailed 输入一个非负整数！
 ENDLANGUAGE

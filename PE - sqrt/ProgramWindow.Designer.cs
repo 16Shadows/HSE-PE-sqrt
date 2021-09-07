@@ -352,7 +352,7 @@ namespace PE___sqrt
             this.historyBox.Multiline = true;
             this.historyBox.Name = "historyBox";
             this.historyBox.ReadOnly = true;
-            this.historyBox.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
+            this.historyBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.historyBox.Size = new System.Drawing.Size(386, 353);
             this.historyBox.TabIndex = 18;
             this.historyBox.WordWrap = false;

@@ -252,7 +252,6 @@ namespace PE___sqrt
             {
                 SetInputActive(false);
                 errorField.Text = "Calculating...";
-
                 
                 if(value >= BigNumbers.BigRational.Zero)
                 {
@@ -285,6 +284,7 @@ namespace PE___sqrt
             {
                 historyBox.Text = historyBox.Text.Substring(historyBox.Text.IndexOf("\r\n")+2) + "\r\n" + line;
             }
+            historyBox.SelectionStart = historyBox.Text.Length;
         }
 
         void OnResultCalculated(BigNumbers.BigRational source, BigNumbers.BigRational value, bool negative = false)

@@ -12,6 +12,14 @@ namespace PE___sqrt.BigNumbers
         public static readonly BigRational Half = new BigRational(1, 2);
         public static readonly BigRational Two = new BigRational(2, 1);
 
+        public bool IsZero
+        {
+            get
+            {
+                return numerator == 0;
+            }
+        }
+
         private BigInteger numerator;
         private BigInteger denominator;
 
@@ -66,6 +74,8 @@ namespace PE___sqrt.BigNumbers
 
         public BigRational Reduce()
         {
+            if(numerator == 0) return this;
+
             BigInteger gcd = BigInteger.GreatestCommonDivisor(numerator, denominator);
 
             if(gcd > 1)
@@ -82,7 +92,11 @@ namespace PE___sqrt.BigNumbers
 
         public static BigRational Parse(string str)
         {
-            BigRational result = new BigRational();
+            BigRational result = new BigRational(Zero);
+
+            str = str.Replace(" ", "");
+
+            if(str.Length == 0) return result;
 
             str = str.Trim().TrimEnd(parseToTrim1).TrimEnd(parseToTrim2);
 
@@ -104,10 +118,19 @@ namespace PE___sqrt.BigNumbers
 
         public static bool TryParse(string str, out BigRational result)
         {
-            result = new BigRational();
+            result = null;
+            if(str == null || str.Length == 0) return false;
 
-            str = str.Trim().TrimEnd(parseToTrim1).TrimEnd(parseToTrim2);
+            str = str.Replace(" ", "");
 
+            if(str.Length == 0) return false;
+
+            str = str.TrimEnd(parseToTrim1).TrimEnd(parseToTrim2);
+
+            result = new BigRational(Zero);
+
+            if(str.Length == 0) return true;
+            
             int index = str.IndexOf('.');
 
             if(index != -1)
@@ -245,6 +268,8 @@ namespace PE___sqrt.BigNumbers
 
         public static BigRational Sqrt(BigRational value, int precision = 0)
         {
+            if(value.IsZero) return new BigRational(Zero);
+
             BigRational result = new BigRational();
 
             //Step 1 - shift

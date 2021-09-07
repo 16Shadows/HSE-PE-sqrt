@@ -1,19 +1,31 @@
 LANGUAGE en
 LanguageName English
-InputNumber Input your number:
-ErrorEmpty Input is empty
-ErrorInvalidInput Input contains invalid characters
-Result The square root of your number is:
+Languages Languages
+Support Support
+Settings Settings
+Precision Precision
 Error Error
-Calculate Calculate
+ErrorInputEmpty Error: Input field is empty
+ErrorInputInvalid Error: '{0}' is not a valid number
+PrecisionBoxCaption Precision
+PrecisionBoxText Input precision (number of digits in the fractional part):
+InputBoxButtonOk OK
+InputBoxButtonCancel Cancel
+PrecisionParseFailed Input a non-negative whole number!
 ENDLANGUAGE
 
 LANGUAGE ru
 LanguageName Русский
-InputNumber Введите число:
-ErrorEmpty Число не введено
-ErrorInvalidInput Некорректное число
-Result Квадратный корень числа:
+Languages Языки
+Support Поддержка
+Settings Настройки
+Precision Точность
 Error Ошибка
-Calculate Вычислить
+ErrorInputEmpty Ошибка: Поле ввода пустое
+ErrorInputInvalid Ошибка: '{0}' - не число
+PrecisionBoxCaption Точность
+PrecisionBoxText Укажите точность (число знаков в дробной части числа):
+InputBoxButtonOk ОК
+InputBoxButtonCancel Отмена
+PrecisionParseFailed Укажите неотрицательное целое число!
 ENDLANGUAGE

@@ -52,6 +52,8 @@ namespace PE___sqrt
             this.buttonEraseAll = new System.Windows.Forms.Button();
             this.buttonCalculate = new System.Windows.Forms.Button();
             this.historyBox = new System.Windows.Forms.TextBox();
+            this.buttonImaginaryUnit = new System.Windows.Forms.Button();
+            this.buttonPlus = new System.Windows.Forms.Button();
             this.ProgramMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -64,7 +66,7 @@ namespace PE___sqrt
             this.supportMenuItem});
             this.ProgramMenu.Location = new System.Drawing.Point(0, 0);
             this.ProgramMenu.Name = "ProgramMenu";
-            this.ProgramMenu.Size = new System.Drawing.Size(769, 24);
+            this.ProgramMenu.Size = new System.Drawing.Size(771, 24);
             this.ProgramMenu.TabIndex = 0;
             this.ProgramMenu.Text = "ProgramMenu";
             // 
@@ -96,6 +98,7 @@ namespace PE___sqrt
             this.supportMenuItem.Name = "supportMenuItem";
             this.supportMenuItem.Size = new System.Drawing.Size(61, 20);
             this.supportMenuItem.Text = "Support";
+            this.supportMenuItem.Click += new System.EventHandler(this.supportMenuItem_Click);
             // 
             // inputField
             // 
@@ -103,12 +106,11 @@ namespace PE___sqrt
             this.inputField.HideSelection = false;
             this.inputField.Location = new System.Drawing.Point(12, 27);
             this.inputField.Name = "inputField";
-            this.inputField.Size = new System.Drawing.Size(743, 38);
+            this.inputField.Size = new System.Drawing.Size(746, 38);
             this.inputField.TabIndex = 1;
             this.inputField.TabStop = false;
             this.inputField.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.inputField.WordWrap = false;
-            this.inputField.TextChanged += new System.EventHandler(this.inputField_TextChanged);
             // 
             // errorField
             // 
@@ -117,7 +119,7 @@ namespace PE___sqrt
             this.errorField.Location = new System.Drawing.Point(12, 71);
             this.errorField.Name = "errorField";
             this.errorField.ReadOnly = true;
-            this.errorField.Size = new System.Drawing.Size(743, 23);
+            this.errorField.Size = new System.Drawing.Size(746, 23);
             this.errorField.TabIndex = 2;
             this.errorField.TabStop = false;
             // 
@@ -202,7 +204,7 @@ namespace PE___sqrt
             this.buttonMinus.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.buttonMinus.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonMinus.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonMinus.Location = new System.Drawing.Point(12, 374);
+            this.buttonMinus.Location = new System.Drawing.Point(282, 374);
             this.buttonMinus.Name = "buttonMinus";
             this.buttonMinus.Size = new System.Drawing.Size(80, 80);
             this.buttonMinus.TabIndex = 8;
@@ -307,7 +309,7 @@ namespace PE___sqrt
             this.buttonErase.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.buttonErase.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonErase.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonErase.Location = new System.Drawing.Point(283, 104);
+            this.buttonErase.Location = new System.Drawing.Point(282, 104);
             this.buttonErase.Name = "buttonErase";
             this.buttonErase.Size = new System.Drawing.Size(80, 80);
             this.buttonErase.TabIndex = 15;
@@ -337,9 +339,9 @@ namespace PE___sqrt
             this.buttonCalculate.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.buttonCalculate.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonCalculate.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonCalculate.Location = new System.Drawing.Point(283, 284);
+            this.buttonCalculate.Location = new System.Drawing.Point(372, 374);
             this.buttonCalculate.Name = "buttonCalculate";
-            this.buttonCalculate.Size = new System.Drawing.Size(80, 170);
+            this.buttonCalculate.Size = new System.Drawing.Size(386, 80);
             this.buttonCalculate.TabIndex = 17;
             this.buttonCalculate.TabStop = false;
             this.buttonCalculate.Text = "=";
@@ -348,21 +350,53 @@ namespace PE___sqrt
             // 
             // historyBox
             // 
-            this.historyBox.Location = new System.Drawing.Point(369, 101);
+            this.historyBox.Location = new System.Drawing.Point(372, 104);
             this.historyBox.Multiline = true;
             this.historyBox.Name = "historyBox";
             this.historyBox.ReadOnly = true;
             this.historyBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.historyBox.Size = new System.Drawing.Size(386, 353);
+            this.historyBox.Size = new System.Drawing.Size(386, 263);
             this.historyBox.TabIndex = 18;
             this.historyBox.WordWrap = false;
+            // 
+            // buttonImaginaryUnit
+            // 
+            this.buttonImaginaryUnit.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.buttonImaginaryUnit.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.buttonImaginaryUnit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonImaginaryUnit.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonImaginaryUnit.Location = new System.Drawing.Point(12, 374);
+            this.buttonImaginaryUnit.Name = "buttonImaginaryUnit";
+            this.buttonImaginaryUnit.Size = new System.Drawing.Size(80, 80);
+            this.buttonImaginaryUnit.TabIndex = 19;
+            this.buttonImaginaryUnit.TabStop = false;
+            this.buttonImaginaryUnit.Text = "i";
+            this.buttonImaginaryUnit.UseVisualStyleBackColor = false;
+            this.buttonImaginaryUnit.Click += new System.EventHandler(this.buttonImaginaryUnit_Click);
+            // 
+            // buttonPlus
+            // 
+            this.buttonPlus.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.buttonPlus.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.buttonPlus.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.buttonPlus.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonPlus.Location = new System.Drawing.Point(282, 284);
+            this.buttonPlus.Name = "buttonPlus";
+            this.buttonPlus.Size = new System.Drawing.Size(80, 80);
+            this.buttonPlus.TabIndex = 20;
+            this.buttonPlus.TabStop = false;
+            this.buttonPlus.Text = "+";
+            this.buttonPlus.UseVisualStyleBackColor = false;
+            this.buttonPlus.Click += new System.EventHandler(this.buttonPlus_Click);
             // 
             // ProgramWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(196)))), ((int)(((byte)(238)))));
-            this.ClientSize = new System.Drawing.Size(769, 465);
+            this.ClientSize = new System.Drawing.Size(771, 465);
+            this.Controls.Add(this.buttonPlus);
+            this.Controls.Add(this.buttonImaginaryUnit);
             this.Controls.Add(this.historyBox);
             this.Controls.Add(this.buttonCalculate);
             this.Controls.Add(this.buttonEraseAll);
@@ -422,5 +456,7 @@ namespace PE___sqrt
         private System.Windows.Forms.Button buttonEraseAll;
         private System.Windows.Forms.Button buttonCalculate;
         private System.Windows.Forms.TextBox historyBox;
+        private System.Windows.Forms.Button buttonImaginaryUnit;
+        private System.Windows.Forms.Button buttonPlus;
     }
 }

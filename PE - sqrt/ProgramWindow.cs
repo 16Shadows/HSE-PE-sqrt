@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace PE___sqrt
 {
@@ -10,6 +11,7 @@ namespace PE___sqrt
 
     public partial class ProgramWindow : Form
     {
+        private CultureInfo activeCulture;
         private string activeLanguage;
         private int activeLanguageItem;
         private int precision;
@@ -19,7 +21,8 @@ namespace PE___sqrt
 
         public ProgramWindow()
         {
-            activeLanguage = "en";
+            activeCulture = CultureInfo.CurrentCulture;
+            activeLanguage = activeCulture.TwoLetterISOLanguageName;
             precision = 5;
             historyLength = 0;
 
@@ -43,8 +46,16 @@ namespace PE___sqrt
                     { "Support", "Support" },
                     { "Settings", "Settings" },
                     { "Precision", "Precision" },
+                    { "Error", "Error" },
                     { "ErrorInputEmpty", "Error: Input field is empty" },
-                    { "ErrorInputInvalid", "Error: {0} is not a valid number" }
+                    { "ErrorInputInvalid", "Error: {0} is not a valid number" },
+                    { "PrecisionBoxCaption", "Precision" },
+                    { "PrecisionBoxText", "Input precision (number of digits in the fractional part):" },
+                    { "InputBoxButtonOk", "OK" },
+                    { "InputBoxButtonCancel", "Cancel" },
+                    { "PrecisionParseFailed", "Input a non-negative whole number!" },
+                    { "Done", "Done" },
+                    { "Calculating", "Calculating..." }
                 }));
             }
 
@@ -71,8 +82,8 @@ namespace PE___sqrt
                 i++;
             }
 
-            ReloadLocalizedItems();
             SetUIActive(true);
+            ReloadLocalizedItems();
         }
 
         void ReloadLocalizedItems()
@@ -81,6 +92,7 @@ namespace PE___sqrt
             supportMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Support");
             settingsMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Settings");
             precisionMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Precision");
+            buttonPoint.Text = activeCulture.NumberFormat.NumberDecimalSeparator;
         }
 
         void SetActiveLanguage(object sender, EventArgs e)
@@ -93,6 +105,7 @@ namespace PE___sqrt
                     languageItems[i].Checked = true;
                     activeLanguageItem = i;
                     activeLanguage = locale.Languages.First(x => { return x.Value.LanguageName.Equals(languageItems[i].Name); }).Key;
+                    activeCulture = CultureInfo.CurrentCulture.TwoLetterISOLanguageName.Equals(activeLanguage) ? CultureInfo.CurrentCulture : CultureInfo.GetCultureInfo(activeLanguage);
                     break;
                 }
 
@@ -202,34 +215,34 @@ namespace PE___sqrt
             inputField.SelectionStart = inputField.Text.Length;
         }
 
-        private void buttonMinus_Click(object sender, EventArgs e)
+        private void buttonPlus_Click(object sender, EventArgs e)
         {
-            if(inputField.Text.IndexOf('-') == 0)
-            {
-                inputField.Text = inputField.Text.Substring(1);
-                buttonMinus.Text = "-";
-            }
-            else
-            {
-                inputField.Text = "-" + inputField.Text;
-                buttonMinus.Text = "+";
-            }
-
+            inputField.Text += '+';
             inputField.SelectionStart = inputField.Text.Length;
         }
 
-        private void inputField_TextChanged(object sender, EventArgs e)
+        private void buttonMinus_Click(object sender, EventArgs e)
         {
-            if(inputField.Text.IndexOf('-') == 0) buttonMinus.Text = "+";
-            else buttonMinus.Text = "-";
+            inputField.Text += '-';
+            inputField.SelectionStart = inputField.Text.Length;
         }
 
         private void buttonPoint_Click(object sender, EventArgs e)
         {
-            if(inputField.Text.IndexOf('.') == -1)
-                inputField.Text += '.';
+            if(inputField.Text.IndexOf(activeCulture.NumberFormat.NumberDecimalSeparator) == -1)
+            {
+                inputField.Text += activeCulture.NumberFormat.NumberDecimalSeparator;
+                inputField.SelectionStart = inputField.Text.Length;
+            }
+        }
 
-            inputField.SelectionStart = inputField.Text.Length;
+        private void buttonImaginaryUnit_Click(object sender, EventArgs e)
+        {
+            if(inputField.Text.IndexOf('i') == -1)
+            {
+                inputField.Text += 'i';
+                inputField.SelectionStart = inputField.Text.Length;
+            }
         }
 
         private void buttonErase_Click(object sender, EventArgs e)
@@ -248,22 +261,33 @@ namespace PE___sqrt
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             if(inputField.Text.Length == 0) errorField.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInputEmpty");
-            else if(BigNumbers.BigRational.TryParse(inputField.Text, out BigNumbers.BigRational value))
+            else if(BigNumbers.BigRational.TryParse(inputField.Text, out BigNumbers.BigRational rationalValue, activeCulture.NumberFormat))
             {
                 SetInputActive(false);
-                errorField.Text = "Calculating...";
+                errorField.Text = locale.Languages[activeLanguage].GetPhrase("Calculating");
                 
-                if(value >= BigNumbers.BigRational.Zero)
+                if(rationalValue >= BigNumbers.BigRational.Zero)
                 {
-                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.Sqrt(value, precision); } );
-                   calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(value, calcTask.Result) );
+                    Task<BigNumbers.BigRational> calcTask = new Task<BigNumbers.BigRational>( () => { return BigNumbers.BigRational.Sqrt(rationalValue, precision); } );
+                    calcTask.GetAwaiter().OnCompleted( () => OnRationalResultCalculated(rationalValue, calcTask.Result) );
+                    calcTask.Start();
                 }
                 else
                 {
-                    Task<BigNumbers.BigRational> calcTask = Task<BigNumbers.BigRational>.Run( () => { return BigNumbers.BigRational.Sqrt(value.Abs(), precision); } );
-                    calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(value, calcTask.Result, true) );
+                    Task<BigNumbers.BigRational> calcTask = new Task<BigNumbers.BigRational>( () => { return BigNumbers.BigRational.Sqrt(BigNumbers.BigRational.Abs(rationalValue), precision); } );
+                    calcTask.GetAwaiter().OnCompleted( () => OnRationalResultCalculated(rationalValue, calcTask.Result) );
+                    calcTask.Start();
                 }
                 
+            }
+            else if(BigNumbers.BigComplex.TryParse(inputField.Text, out BigNumbers.BigComplex complexValue, activeCulture.NumberFormat))
+            {
+                SetInputActive(false);
+                errorField.Text = locale.Languages[activeLanguage].GetPhrase("Calculating");
+
+                Task<BigNumbers.BigComplex> calcTask = new Task<BigNumbers.BigComplex>( () => { return BigNumbers.BigComplex.Sqrt(complexValue, precision); } );
+                calcTask.GetAwaiter().OnCompleted( () => OnComplexResultCalculated(complexValue, calcTask.Result) );
+                calcTask.Start();
             }
             else errorField.Text = string.Format(locale.Languages[activeLanguage].GetPhrase("ErrorInputInvalid"), inputField.Text);
         }
@@ -287,19 +311,20 @@ namespace PE___sqrt
             historyBox.SelectionStart = historyBox.Text.Length;
         }
 
-        void OnResultCalculated(BigNumbers.BigRational source, BigNumbers.BigRational value, bool negative = false)
+        void OnRationalResultCalculated(BigNumbers.BigRational source, BigNumbers.BigRational value)
         {
-            errorField.Text = "Done";
-            if(negative)
-            {
-                inputField.Text = value.ToString(precision) + 'i';
-                AppendHistoryLine("sqrt(-" + source.ToString(precision) + ") = " + inputField.Text);
-            }
-            else
-            {
-                inputField.Text = value.ToString(precision);
-                AppendHistoryLine("sqrt(" + source.ToString(precision) + ") = " + inputField.Text);
-            }
+            errorField.Text = locale.Languages[activeLanguage].GetPhrase("Done");
+            if(source.Negative) inputField.Text = value.ToString(precision, activeCulture.NumberFormat) + 'i';
+            else inputField.Text = value.ToString(precision, activeCulture.NumberFormat);
+            AppendHistoryLine("sqrt(" + source.ToString(precision, activeCulture.NumberFormat) + ") = " + inputField.Text);
+            SetInputActive(true);
+        }
+
+        void OnComplexResultCalculated(BigNumbers.BigComplex source, BigNumbers.BigComplex value)
+        {
+            errorField.Text = locale.Languages[activeLanguage].GetPhrase("Done");
+            inputField.Text = value.ToString(precision, activeCulture.NumberFormat);
+            AppendHistoryLine("sqrt(" + source.ToString(precision, activeCulture.NumberFormat) + ") = " + inputField.Text);
             SetInputActive(true);
         }
 
@@ -326,6 +351,11 @@ namespace PE___sqrt
             }
 
             precisionInput.Dispose();
+        }
+
+        private void supportMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://bestsupport915430225.wordpress.com/");
         }
     }
 }

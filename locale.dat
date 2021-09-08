@@ -12,6 +12,7 @@ PrecisionBoxText Input precision (number of digits in the fractional part):
 InputBoxButtonOk OK
 InputBoxButtonCancel Cancel
 PrecisionParseFailed Input a non-negative whole number!
+Done Done
 ENDLANGUAGE
 
 LANGUAGE ru
@@ -28,6 +29,7 @@ PrecisionBoxText Укажите точность (число знаков в д�
 InputBoxButtonOk ОК
 InputBoxButtonCancel Отмена
 PrecisionParseFailed Укажите неотрицательное целое число!
+Done Готово
 ENDLANGUAGE
 
 LANGUAGE es
@@ -44,6 +46,7 @@ PrecisionBoxText Input precision (número de dígitos en la parte fraccionaria):
 InputBoxButtonOk OK
 InputBoxButtonCancel Cancelar
 PrecisionParseFailed ¡Ingrese un número entero no negativo!
+Done Done
 ENDLANGUAGE
 
 LANGUAGE hi
@@ -60,6 +63,7 @@ PrecisionBoxText इनपुट परिशुद्धता (आंशिक
 InputBoxButtonOk OK
 InputBoxButtonCancel रद्द करें
 PrecisionParseFailed एक गैर-ऋणात्मक पूर्ण संख्या दर्ज करें!
+Done Done
 ENDLANGUAGE
 
 LANGUAGE zh
@@ -76,4 +80,5 @@ PrecisionBoxText 输入精度（小数部分的位数）
 InputBoxButtonOk OK
 InputBoxButtonCancel 取消
 PrecisionParseFailed 输入一个非负整数！
+Done Done
 ENDLANGUAGE

@@ -6,13 +6,14 @@ Settings Settings
 Precision Precision
 Error Error
 ErrorInputEmpty Error: Input field is empty
-ErrorInputInvalid Error: '{0}' is not a valid number
+ErrorInputInvalid Error: '{0}' is not a valid stanard number
 PrecisionBoxCaption Precision
-PrecisionBoxText Input precision (number of digits in the fractional part):
+PrecisionBoxText Input precision (number of significant digits in the fractional part):
 InputBoxButtonOk OK
 InputBoxButtonCancel Cancel
 PrecisionParseFailed Input a non-negative whole number!
 Done Done
+Calculating Calculating...
 ENDLANGUAGE
 
 LANGUAGE ru
@@ -23,13 +24,14 @@ Settings Настройки
 Precision Точность
 Error Ошибка
 ErrorInputEmpty Ошибка: Поле ввода пустое
-ErrorInputInvalid Ошибка: '{0}' - не число
+ErrorInputInvalid Ошибка: '{0}' - не число в стандартной форме
 PrecisionBoxCaption Точность
-PrecisionBoxText Укажите точность (число знаков в дробной части числа):
+PrecisionBoxText Укажите точность (число значимых знаков в дробной части числа):
 InputBoxButtonOk ОК
 InputBoxButtonCancel Отмена
 PrecisionParseFailed Укажите неотрицательное целое число!
 Done Готово
+Calculating Вычисляем...
 ENDLANGUAGE
 
 LANGUAGE es
@@ -47,6 +49,7 @@ InputBoxButtonOk OK
 InputBoxButtonCancel Cancelar
 PrecisionParseFailed ¡Ingrese un número entero no negativo!
 Done Done
+Calculating Calculating...
 ENDLANGUAGE
 
 LANGUAGE hi
@@ -64,6 +67,7 @@ InputBoxButtonOk OK
 InputBoxButtonCancel रद्द करें
 PrecisionParseFailed एक गैर-ऋणात्मक पूर्ण संख्या दर्ज करें!
 Done Done
+Calculating Calculating...
 ENDLANGUAGE
 
 LANGUAGE zh
@@ -81,4 +85,5 @@ InputBoxButtonOk OK
 InputBoxButtonCancel 取消
 PrecisionParseFailed 输入一个非负整数！
 Done Done
+Calculating Calculating...
 ENDLANGUAGE

@@ -44,12 +44,12 @@ Error Error
 ErrorInputEmpty Error: El campo de entrada está vacío
 ErrorInputInvalid Error: '{0}' No es un número válido
 PrecisionBoxCaption Precisión
-PrecisionBoxText Input precision (número de dígitos en la parte fraccionaria):
+PrecisionBoxText Precisión de entrada (número de dígitos significativos en la parte fraccionaria):
 InputBoxButtonOk OK
 InputBoxButtonCancel Cancelar
 PrecisionParseFailed ¡Ingrese un número entero no negativo!
-Done Done
-Calculating Calculating...
+Done Hecho
+Calculating Сalcular...
 ENDLANGUAGE
 
 LANGUAGE hi
@@ -62,12 +62,12 @@ Error त्रुटि
 ErrorInputEmpty त्रुटि: इनपुट फ़ील्ड खाली है
 ErrorInputInvalid त्रुटि: '{0}' वैध संख्या नहीं है
 PrecisionBoxCaption शुद्धता
-PrecisionBoxText इनपुट परिशुद्धता (आंशिक भाग में अंकों की संख्या):
+PrecisionBoxText इनपुट परिशुद्धता (आंशिक भाग में महत्वपूर्ण अंकों की संख्या):
 InputBoxButtonOk OK
 InputBoxButtonCancel रद्द करें
 PrecisionParseFailed एक गैर-ऋणात्मक पूर्ण संख्या दर्ज करें!
-Done Done
-Calculating Calculating...
+Done किया हुआ
+Calculating गिना जा रहा है...
 ENDLANGUAGE
 
 LANGUAGE zh
@@ -80,10 +80,10 @@ Error 错误
 ErrorInputEmpty 错误: 输入字段为空
 ErrorInputInvalid 错误: '{0}' 不是有效数字
 PrecisionBoxCaption 精确
-PrecisionBoxText 输入精度（小数部分的位数）
+PrecisionBoxText 输入精度（小数部分的有效位数)：
 InputBoxButtonOk OK
 InputBoxButtonCancel 取消
 PrecisionParseFailed 输入一个非负整数！
-Done Done
-Calculating Calculating...
+Done 完毕
+Calculating 计算...
 ENDLANGUAGE

@@ -47,6 +47,14 @@ namespace PE___sqrt.BigNumbers
             }
         }
 
+        public BigRational SignNoZero
+        {
+            get
+            {
+                return numerator >= 0? One: MinusOne;
+            }
+        }
+
         private BigInteger numerator;
         private BigInteger denominator;
 
@@ -119,6 +127,8 @@ namespace PE___sqrt.BigNumbers
 
             str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
             
+            if(str.Length == 0) return Zero;
+
             if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
 
             int index;
@@ -164,6 +174,8 @@ namespace PE___sqrt.BigNumbers
 
             str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
             
+            if(str.Length == 0) return true;
+
             if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
 
             int index;

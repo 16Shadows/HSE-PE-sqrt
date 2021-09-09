@@ -199,10 +199,8 @@ namespace PE___sqrt.BigNumbers
         //Find square root of the value
         public static BigComplex Sqrt(BigComplex value, int precision = 0)
         {
-            if(value.imaginary.IsZero) return new BigComplex( BigRational.Sqrt(value.real, precision), BigRational.Zero );
-
             BigRational t = BigRational.Sqrt( BigRational.Sqr(value.real) + BigRational.Sqr(value.imaginary), precision );
-            return new BigComplex( BigRational.Sqrt((t + value.real)/BigRational.Two, precision), value.imaginary.Sign * BigRational.Sqrt((t - value.real)/BigRational.Two, precision) );
+            return new BigComplex( BigRational.Sqrt((t + value.real)/BigRational.Two, precision), value.imaginary.SignNoZero * BigRational.Sqrt((t - value.real)/BigRational.Two, precision) );
         }
 
         public bool Equals(BigComplex other)

@@ -23,6 +23,7 @@ namespace PE___sqrt
         {
             activeCulture = CultureInfo.CurrentCulture;
             activeLanguage = activeCulture.TwoLetterISOLanguageName;
+
             precision = 5;
             historyLength = 0;
 
@@ -57,6 +58,12 @@ namespace PE___sqrt
                     { "Done", "Done" },
                     { "Calculating", "Calculating..." }
                 }));
+            }
+
+            if(!locale.Languages.ContainsKey(activeCulture.TwoLetterISOLanguageName))
+            {
+                activeLanguage = "en";
+                activeCulture = CultureInfo.GetCultureInfo(activeLanguage);
             }
 
             languageItems = new ToolStripMenuItem[locale.Languages.Count];
@@ -261,25 +268,6 @@ namespace PE___sqrt
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             if(inputField.Text.Length == 0) errorField.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInputEmpty");
-            else if(BigNumbers.BigRational.TryParse(inputField.Text, out BigNumbers.BigRational rationalValue, activeCulture.NumberFormat))
-            {
-                SetInputActive(false);
-                errorField.Text = locale.Languages[activeLanguage].GetPhrase("Calculating");
-                
-                if(rationalValue >= BigNumbers.BigRational.Zero)
-                {
-                    Task<BigNumbers.BigRational> calcTask = new Task<BigNumbers.BigRational>( () => { return BigNumbers.BigRational.Sqrt(rationalValue, precision); } );
-                    calcTask.GetAwaiter().OnCompleted( () => OnRationalResultCalculated(rationalValue, calcTask.Result) );
-                    calcTask.Start();
-                }
-                else
-                {
-                    Task<BigNumbers.BigRational> calcTask = new Task<BigNumbers.BigRational>( () => { return BigNumbers.BigRational.Sqrt(BigNumbers.BigRational.Abs(rationalValue), precision); } );
-                    calcTask.GetAwaiter().OnCompleted( () => OnRationalResultCalculated(rationalValue, calcTask.Result) );
-                    calcTask.Start();
-                }
-                
-            }
             else if(BigNumbers.BigComplex.TryParse(inputField.Text, out BigNumbers.BigComplex complexValue, activeCulture.NumberFormat))
             {
                 SetInputActive(false);
@@ -309,15 +297,6 @@ namespace PE___sqrt
                 historyBox.Text = historyBox.Text.Substring(historyBox.Text.IndexOf("\r\n")+2) + "\r\n" + line;
             }
             historyBox.SelectionStart = historyBox.Text.Length;
-        }
-
-        void OnRationalResultCalculated(BigNumbers.BigRational source, BigNumbers.BigRational value)
-        {
-            errorField.Text = locale.Languages[activeLanguage].GetPhrase("Done");
-            if(source.Negative) inputField.Text = value.ToString(precision, activeCulture.NumberFormat) + 'i';
-            else inputField.Text = value.ToString(precision, activeCulture.NumberFormat);
-            AppendHistoryLine("sqrt(" + source.ToString(precision, activeCulture.NumberFormat) + ") = " + inputField.Text);
-            SetInputActive(true);
         }
 
         void OnComplexResultCalculated(BigNumbers.BigComplex source, BigNumbers.BigComplex value)

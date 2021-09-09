@@ -6,7 +6,7 @@ Settings Settings
 Precision Precision
 Error Error
 ErrorInputEmpty Error: Input field is empty
-ErrorInputInvalid Error: '{0}' is not a valid stanard number
+ErrorInputInvalid Error: '{0}' is not a valid standard number
 PrecisionBoxCaption Precision
 PrecisionBoxText Input precision (number of significant digits in the fractional part):
 InputBoxButtonOk OK

@@ -123,7 +123,7 @@ namespace UniversalInstaller
             // 
             this.progressBar.Location = new System.Drawing.Point(16, 138);
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(478, 23);
+            this.progressBar.Size = new System.Drawing.Size(428, 23);
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar.TabIndex = 6;
             // 
@@ -131,7 +131,7 @@ namespace UniversalInstaller
             // 
             this.labelProgress.BackColor = System.Drawing.Color.Transparent;
             this.labelProgress.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.labelProgress.Location = new System.Drawing.Point(233, 141);
+            this.labelProgress.Location = new System.Drawing.Point(450, 141);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(44, 17);
             this.labelProgress.TabIndex = 7;

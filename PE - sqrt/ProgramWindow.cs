@@ -274,7 +274,7 @@ namespace PE___sqrt
                 errorField.Text = locale.Languages[activeLanguage].GetPhrase("Calculating");
 
                 Task<BigNumbers.BigComplex> calcTask = new Task<BigNumbers.BigComplex>( () => { return BigNumbers.BigComplex.Sqrt(complexValue, precision); } );
-                calcTask.GetAwaiter().OnCompleted( () => OnComplexResultCalculated(complexValue, calcTask.Result) );
+                calcTask.GetAwaiter().OnCompleted( () => OnResultCalculated(complexValue, calcTask.Result) );
                 calcTask.Start();
             }
             else errorField.Text = string.Format(locale.Languages[activeLanguage].GetPhrase("ErrorInputInvalid"), inputField.Text);
@@ -299,7 +299,7 @@ namespace PE___sqrt
             historyBox.SelectionStart = historyBox.Text.Length;
         }
 
-        void OnComplexResultCalculated(BigNumbers.BigComplex source, BigNumbers.BigComplex value)
+        void OnResultCalculated(BigNumbers.BigComplex source, BigNumbers.BigComplex value)
         {
             errorField.Text = locale.Languages[activeLanguage].GetPhrase("Done");
             inputField.Text = value.ToString(precision, activeCulture.NumberFormat);
@@ -314,7 +314,7 @@ namespace PE___sqrt
                                                                  locale.Languages[activeLanguage].GetPhrase("InputBoxButtonOk"),
                                                                  locale.Languages[activeLanguage].GetPhrase("InputBoxButtonCancel"));
 
-            if(precisionInput.ShowDialog() == DialogResult.OK)
+            if(precisionInput.ShowDialog(this) == DialogResult.OK)
             {
                 int prec;
                 while( !int.TryParse(precisionInput.inputBox.Text, out prec) || prec < 0 )

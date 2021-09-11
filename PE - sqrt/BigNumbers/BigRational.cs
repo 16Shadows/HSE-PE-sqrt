@@ -299,7 +299,7 @@ namespace PE___sqrt.BigNumbers
         public static BigRational Sqrt(BigRational value, int precision = 0)
         {
             if(value.IsZero) return Zero;
-            else if(value < Zero) throw new ArithmeticException("Attempted to find square root of a negative BigRational. Use BigComplex instead.");
+            else if(value.Negative) throw new ArithmeticException("Attempted to find square root of a negative BigRational. Use BigComplex instead.");
 
             precision += 2;
 

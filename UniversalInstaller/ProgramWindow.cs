@@ -65,6 +65,57 @@ namespace UniversalInstaller
                 { "InstallationError", "Произошла ошибка во время установки:" }
             }));
 
+            locale.Languages.Add("es", new locale.LanguageEntry("Español", new Dictionary<string, string>
+            {
+                { "Languages", "Idiomas" },
+                { "Support", "Apoyo" },
+                { "InstallerName", "Asistente de instalación" },
+                { "SelectInstallDir", "Seleccione el directorio de instalación:" },
+                { "Select", "Seleccione" },
+                { "CreateDesktopShortcut", "Crear acceso directo del escritorio" },
+                { "CreateStartMenuShortcut", "Crear acceso directo al menú de inicio" },
+                { "Install", "Instalar en pc" },
+                { "Cancel", "Cancelar" },
+                { "Close", "Cerrar" },
+                { "AbortInstallation", "¿Está seguro de que desea cancelar la instalación?" },
+                { "PathInvalidChars", "La ruta que ha introducido contiene símbolos no válidos." },
+                { "InstallationError", "A error has occured during the installation process:" }
+            }));
+
+            locale.Languages.Add("hi", new locale.LanguageEntry("हिन्दी", new Dictionary<string, string>
+            {
+                { "Languages", "बोली" },
+                { "Support", "बोली" },
+                { "InstallerName", "स्थापना विज़ार्ड" },
+                { "SelectInstallDir", "स्थापना निर्देशिका का चयन करें:" },
+                { "Select", "चुनते हैं" },
+                { "CreateDesktopShortcut", "डेस्कटॉप शॉर्टकट बना" },
+                { "CreateStartMenuShortcut", "स्टार्ट मेन्यू शॉर्टकट बनाएं" },
+                { "Install", "इंस्टॉल" },
+                { "Cancel", "रद्द करें" },
+                { "Close", "बंद करे" },
+                { "AbortInstallation", "क्या आप वाकई स्थापना को रोकना चाहते हैं?" },
+                { "PathInvalidChars", "आपके द्वारा दर्ज किए गए पथ में अमान्य प्रतीक हैं।" },
+                { "InstallationError", "स्थापना प्रक्रिया के दौरान एक त्रुटि हुई है:" }
+            }));
+
+            locale.Languages.Add("zh", new locale.LanguageEntry("中文", new Dictionary<string, string>
+            {
+                { "Languages", "语言" },
+                { "Support", "支持" },
+                { "InstallerName", "安装向导" },
+                { "SelectInstallDir", "选择安装目录：" },
+                { "Select", "选择" },
+                { "CreateDesktopShortcut", "创建桌面快捷方式" },
+                { "CreateStartMenuShortcut", "创建开始菜单快捷方式" },
+                { "Install", "安装" },
+                { "Cancel", "取消" },
+                { "Close", "关闭" },
+                { "AbortInstallation", "您确定要中止安装吗？" },
+                { "PathInvalidChars", "您输入的路径包含无效符号。" },
+                { "InstallationError", "安装过程中出现错误：" }
+            }));
+
             activeCulture = CultureInfo.CurrentCulture;
             activeLanguage = activeCulture.TwoLetterISOLanguageName;
 

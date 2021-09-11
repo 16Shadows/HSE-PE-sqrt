@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TimeToSqrt")]
+[assembly: AssemblyTitle("UniversalInstallerCreator")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TimeToSqrt")]
+[assembly: AssemblyProduct("UniversalInstallerCreator")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a0f2857e-142b-472c-b6cd-5471a89d5206")]
+[assembly: Guid("cf76fd9a-dc02-4c58-a952-ea97b675000e")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -27,75 +27,6 @@ namespace PE___sqrt.BigNumbers
             imaginary = im;
         }
 
-        //Construct a BigComplex from a string. No exception handling for underlying BigRational.Parse() calls
-        public static BigComplex Parse(string str, NumberFormatInfo format = null)
-        {
-            if(str == null || str.Length == 0) return Zero;
-
-            //Remove spaces
-            str = str.Replace(" ", "");
-
-            if(str.Length == 0) return Zero;
-
-            int index = str.IndexOf('i');
-
-            if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
-
-            //No imaginary unit (thus no imaginary part
-            if(index == -1) 
-                return new BigComplex(BigRational.Parse(str), BigRational.Zero);
-            else
-            {
-                //Imaginary unit is present
-                int index2 = str.IndexOf('+');
-                if(index2 == -1) index2 = str.IndexOf('-');
-
-                if(index2 == -1)
-                {
-                    //No real part
-                    if(index != str.Length - 1) throw new FormatException("Invalid complex number format!");
-                    str = str.Remove(index, 1);
-                    if(str.Length == 0) return new BigComplex(BigRational.Zero, BigRational.One);
-                    else if(str.Equals("-")) return new BigComplex(BigRational.Zero, BigRational.MinusOne);
-                    return new BigComplex(BigRational.Zero, BigRational.Parse(str));
-                }
-                else
-                {
-                    //Imaginary goes before real
-                    if(index < index2)
-                    {
-                        string imComp = str.Substring(0, index);
-                        BigRational im;
-                        if(imComp.Length == 0) im = BigRational.One;
-                        else if(imComp.Length == 1)
-                        {
-                            if(imComp.Equals('+')) im = BigRational.One;
-                            else if(imComp.Equals('-')) im = BigRational.MinusOne;
-                            else im = BigRational.Parse(imComp);
-                        }
-                        else im = BigRational.Parse(imComp);
-                        return new BigComplex( BigRational.Parse(str.Substring(index2)), im );
-                    }
-                    //Real goes before imaginary
-                    else
-                    {
-                        string imComp = str.Substring(index2, index-index2);
-                        BigRational im;
-                        if(imComp.Length == 0) im = BigRational.One;
-                        else if(imComp.Length == 1)
-                        {
-                            if(imComp.Equals('+')) im = BigRational.One;
-                            else if(imComp.Equals('-')) im = BigRational.MinusOne;
-                            else im = BigRational.Parse(imComp);
-                        }
-                        else im = BigRational.Parse(imComp);
-                        return new BigComplex( BigRational.Parse(str.Substring(0, index2)), im);
-                    }
-                        
-                }
-            }
-        }
-
         //Construct a BigComlex from a string. No exceptions thrown. Returns true on success. On failure, value of result is not defined
         public static bool TryParse(string str, out BigComplex result, NumberFormatInfo format = null)
         {
@@ -107,7 +38,9 @@ namespace PE___sqrt.BigNumbers
 
             if(str.Length == 0) return false;
 
-            if( str.Count( x => { return x == 'i'; } ) > 1 || str.Count( x => { return x == '+'; } ) + str.Count( x => { return x == '-'; } ) > 2 ) return false;
+            int signs = str.Count( x => { return x == '+' || x == '-'; } );
+
+            if( str.Count( x => { return x == 'i'; } ) > 1 || signs > 2 ) return false;
 
             int index = str.IndexOf('i');
 
@@ -116,34 +49,89 @@ namespace PE___sqrt.BigNumbers
                 return BigRational.TryParse(str, out result.real, format);
             else
             {
-                //Imaginary unit is present
                 int index2 = str.LastIndexOf('+');
                 int index3 = str.LastIndexOf('-');
 
                 if(index3 > index2) index2 = index3;
 
-                if(index2 == -1)
+                //Imaginary unit is present
+                if(signs == 0)
                 {
-                    if(index != str.Length - 1) return false;
-
-                    //No real part
+                    //Only imaginary positive part. Guaranteed.
                     str = str.Remove(index, 1);
-                    
+
                     if(str.Length == 0)
                     {
                         result.imaginary = BigRational.One;
                         return true;
                     }
-                    else if(str.Equals("-"))
-                    {
-                        result.imaginary = BigRational.MinusOne;
-                        return true;
-                    }
 
                     return BigRational.TryParse(str, out result.imaginary, format);
                 }
+                else if(signs == 1)
+                {
+                    //The trickiest so far. Could be signed imaginary or with both parts
+                    if(index2 == 0)
+                    {
+                        //Has to be signed imaginary, since you can't append another part without a second sign
+                        str = str.Remove(index, 1);
+
+                        if(str.Length == 0 || str.Equals("+"))
+                        {
+                            result.imaginary = BigRational.One;
+                            return true;
+                        }
+                        else if(str.Equals("-"))
+                        {
+                            result.imaginary = BigRational.MinusOne;
+                            return true;
+                        }
+
+                        return BigRational.TryParse(str, out result.imaginary, format);
+                    }
+                    else
+                    {
+                        //Both parts present
+                        if(index < index2)
+                        {
+                            //Imaginary goes before real
+
+                            string imComp = str.Substring(0, index);
+                            if(imComp.Length == 0) result.imaginary = BigRational.One;
+                            else if(imComp.Length == 1)
+                            {
+                                if(imComp.IndexOf('+') == 0) result.imaginary = BigRational.One;
+                                else if(imComp.IndexOf('-') == 0) result.imaginary = BigRational.MinusOne;
+                                else if(!BigRational.TryParse(imComp, out result.imaginary, format)) return false;
+                            }
+                            else if(!BigRational.TryParse(imComp, out result.imaginary, format)) return false;
+
+                            return BigRational.TryParse(str.Substring(index2), out result.real, format);
+                        }
+                        else
+                        {
+                            //Real goes before imaginary
+                        
+                            string imComp = str.Substring(index2, index-index2);
+                            Console.WriteLine(imComp);
+                            if(imComp.Length == 0) result.imaginary = BigRational.One;
+                            else if(imComp.Length == 1)
+                            {
+                                if(imComp.IndexOf('+') == 0) result.imaginary = BigRational.One;
+                                else if(imComp.IndexOf('-') == 0) result.imaginary = BigRational.MinusOne;
+                                else if(!BigRational.TryParse(imComp, out result.imaginary, format)) return false;
+                            }
+                            else if(!BigRational.TryParse(imComp, out result.imaginary, format)) return false;
+
+                            return BigRational.TryParse(str.Substring(0, index2), out result.real, format);
+                        }
+                    }
+
+                }
                 else
                 {
+                    //Both parts present. Guaranteed
+
                     if(index < index2)
                     {
                         //Imaginary goes before real
@@ -242,9 +230,8 @@ namespace PE___sqrt.BigNumbers
                 if(!imaginary.IsZero)
                 {
                     result += imaginary.Negative?" - ":" + ";
-                    if(imaginary.CompareTo(BigRational.One) == 0) result += "i";
-                    else if(imaginary.CompareTo(BigRational.MinusOne) == 0) result += "-i";
-                    else result += imaginary.ToString(precision, format) + "i";
+                    if(imaginary.CompareTo(BigRational.One) == 0 || imaginary.CompareTo(BigRational.MinusOne) == 0) result += "i";
+                    else result += BigRational.Abs(imaginary).ToString(precision, format) + "i";
                 }
             }
             else result = "0";

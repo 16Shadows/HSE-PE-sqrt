@@ -135,7 +135,7 @@ namespace UniversalInstaller
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(44, 17);
             this.labelProgress.TabIndex = 7;
-            this.labelProgress.Text = "100%";
+            this.labelProgress.Text = "0%";
             this.labelProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // checkBoxDesktopShortcut

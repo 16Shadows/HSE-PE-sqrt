@@ -57,6 +57,8 @@ namespace PE___sqrt.BigNumbers
                 //Imaginary unit is present
                 if(signs == 0)
                 {
+                    if(index != 0 && index != str.Length - 1) return false;
+
                     //Only imaginary positive part. Guaranteed.
                     str = str.Remove(index, 1);
 
@@ -96,7 +98,10 @@ namespace PE___sqrt.BigNumbers
                         {
                             //Imaginary goes before real
 
-                            string imComp = str.Substring(0, index);
+                            string imComp = str.Substring(0, index2);
+                            if(index != 0 && index != 1 && index != imComp.Length - 1) return false;
+
+                            imComp = imComp.Remove(index, 1);
                             if(imComp.Length == 0) result.imaginary = BigRational.One;
                             else if(imComp.Length == 1)
                             {
@@ -112,8 +117,10 @@ namespace PE___sqrt.BigNumbers
                         {
                             //Real goes before imaginary
                         
-                            string imComp = str.Substring(index2, index-index2);
-                            Console.WriteLine(imComp);
+                            if(index != index2+1 && index != str.Length - 1) return false;
+
+                            string imComp = str.Substring(index2).Remove(index, 1);
+
                             if(imComp.Length == 0) result.imaginary = BigRational.One;
                             else if(imComp.Length == 1)
                             {
@@ -136,7 +143,10 @@ namespace PE___sqrt.BigNumbers
                     {
                         //Imaginary goes before real
 
-                        string imComp = str.Substring(0, index);
+                        string imComp = str.Substring(0, index2);
+                        if(index != 0 && index != 1 && index != imComp.Length - 1) return false;
+
+                        imComp = imComp.Remove(index, 1);
                         if(imComp.Length == 0) result.imaginary = BigRational.One;
                         else if(imComp.Length == 1)
                         {
@@ -152,8 +162,9 @@ namespace PE___sqrt.BigNumbers
                     {
                         //Real goes before imaginary
                         
-                        string imComp = str.Substring(index2, index-index2);
-                        Console.WriteLine(imComp);
+                        if(index != index2+1 && index != str.Length - 1) return false;
+
+                        string imComp = str.Substring(index2).Remove(index, 1);
                         if(imComp.Length == 0) result.imaginary = BigRational.One;
                         else if(imComp.Length == 1)
                         {

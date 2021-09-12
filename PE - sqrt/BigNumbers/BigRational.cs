@@ -87,9 +87,7 @@ namespace PE___sqrt.BigNumbers
         //Construct a BigRational from a string. No exception handling. Supports number format
         public BigRational(string str, NumberFormatInfo format)
         {
-            BigRational res = Parse(str, format);
-            numerator = res.numerator;
-            denominator = res.denominator;
+            TryParse(str, out this, format);
         }
 
         //Create BigRational from a double (or float). Not a constructor to avoid ambiguity between it and BigRational(BigInteger, BigInteger) for integers
@@ -115,53 +113,6 @@ namespace PE___sqrt.BigNumbers
         //Some data for parse() and tryparse()
         private static readonly char[] parseToTrim = { '0' };
 
-        //Construct a BigRational from a string. No exception handling for underlying BigInteger.Parse() call
-        public static BigRational Parse(string str, NumberFormatInfo format = null)
-        {
-            if(str == null || str.Length == 0) return Zero;
-
-            //Remove spaces, leading and trailing zeroes and trailing decimal separators
-            str = str.Replace(" ", "");
-
-            if(str.Length == 0) return Zero;
-
-//            str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
-            
-//            if(str.Length == 0) return Zero;
-
-            if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
-
-            int index;
-//            while( (index = str.LastIndexOf(format.NumberDecimalSeparator)) == str.Length - format.NumberDecimalSeparator.Length )
-//                str = str.Remove(index);
-
-            //If at this point the string is empty, it contained some variation of 0
-            if(str.Length == 0) return Zero;
-
-            BigRational result;
-
-            //Remove number groups separators
-            str = str.Replace(format.NumberGroupSeparator, "");
-
-            //Find this number's decimal separator to convert it to for BigInteger/10^n
-            index = str.IndexOf(format.NumberDecimalSeparator);
-
-            if(index != -1)
-            {
-                if(index == str.Length - format.NumberDecimalSeparator.Length) throw new FormatException("Decimal separator should be followed by digits");
-                str = str.Remove(index, format.NumberDecimalSeparator.Length);
-                //Set denominator to 10^(number of digits after decimal separator)
-                result.denominator = BigInteger.Pow(10, str.Length - index - format.NumberDecimalSeparator.Length + 1);
-            }
-            else result.denominator = 1;
-
-            result.numerator = BigInteger.Parse(str, format);
-
-            result.Reduce();
-
-            return result;
-        }
-
         //Construct a BigRational from a string. No exceptions thrown. Returns true on success. On failure, value of result is not defined
         public static bool TryParse(string str, out BigRational result, NumberFormatInfo format = null)
         {
@@ -171,30 +122,19 @@ namespace PE___sqrt.BigNumbers
             //Remove spaces, leading and trailing zeroes and trailing decimal separators
             str = str.Replace(" ", "");
 
-//            if(str.Length == 0) return false;
-
-//            str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
-            
-            if(str.Length == 0) return true;
+            if(str.Length == 0) return false;
 
             if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
-
-            int index;
-//            while( (index = str.LastIndexOf(format.NumberDecimalSeparator)) == str.Length - format.NumberDecimalSeparator.Length )
-//                str = str.Remove(index);
-
-            //If at this point the string is empty, it contained some variation of 0
-            if(str.Length == 0) return true;
 
             //Remove number groups separators
             str = str.Replace(format.NumberGroupSeparator, "");
 
             //Find this number's decimal separator to convert it to for BigInteger/10^n
-            index = str.IndexOf(format.NumberDecimalSeparator);
+            int index = str.IndexOf(format.NumberDecimalSeparator);
 
             if(index != -1)
             {
-                if(index == str.Length - format.NumberDecimalSeparator.Length) return false;
+                if(index == str.Length - format.NumberDecimalSeparator.Length || index == 0) return false;
                 str = str.Remove(index, format.NumberDecimalSeparator.Length);
                 //Set denominator to 10^(number of digits after decimal separator)
                 result.denominator = BigInteger.Pow(10, str.Length - index - format.NumberDecimalSeparator.Length + 1);

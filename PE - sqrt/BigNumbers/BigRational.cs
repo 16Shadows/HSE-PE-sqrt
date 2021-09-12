@@ -125,9 +125,9 @@ namespace PE___sqrt.BigNumbers
 
             if(str.Length == 0) return Zero;
 
-            str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
+//            str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
             
-            if(str.Length == 0) return Zero;
+//            if(str.Length == 0) return Zero;
 
             if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
 
@@ -170,9 +170,9 @@ namespace PE___sqrt.BigNumbers
             //Remove spaces, leading and trailing zeroes and trailing decimal separators
             str = str.Replace(" ", "");
 
-            if(str.Length == 0) return false;
+//            if(str.Length == 0) return false;
 
-            str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
+//            str = str.TrimStart(parseToTrim).TrimEnd(parseToTrim);
             
             if(str.Length == 0) return true;
 

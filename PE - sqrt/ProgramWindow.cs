@@ -15,7 +15,7 @@ namespace PE___sqrt
     public partial class ProgramWindow : Form
     {
         const string update_request_uri = "https://api.github.com/repos/16Shadows/TimeToSqrtRelease/releases/latest";
-        const string current_version = "v1.7.3";
+        const string current_version = "v1.7.4";
 
         private CultureInfo activeCulture;
         private string activeLanguage;

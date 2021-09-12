@@ -55,6 +55,8 @@ namespace PE___sqrt.BigNumbers
                     //No real part
                     if(index != str.Length - 1) throw new FormatException("Invalid complex number format!");
                     str = str.Remove(index, 1);
+                    if(str.Length == 0) return new BigComplex(BigRational.Zero, BigRational.One);
+                    else if(str.Equals("-")) return new BigComplex(BigRational.Zero, BigRational.MinusOne);
                     return new BigComplex(BigRational.Zero, BigRational.Parse(str));
                 }
                 else
@@ -127,6 +129,17 @@ namespace PE___sqrt.BigNumbers
                     //No real part
                     str = str.Remove(index, 1);
                     
+                    if(str.Length == 0)
+                    {
+                        result.imaginary = BigRational.One;
+                        return true;
+                    }
+                    else if(str.Equals("-"))
+                    {
+                        result.imaginary = BigRational.MinusOne;
+                        return true;
+                    }
+
                     return BigRational.TryParse(str, out result.imaginary, format);
                 }
                 else
@@ -218,7 +231,9 @@ namespace PE___sqrt.BigNumbers
 
             if(real.IsZero && !imaginary.IsZero)
             {
-                result = imaginary.ToString(precision, format) + "i";
+                if(imaginary.CompareTo(BigRational.One) == 0) result = "i";
+                else if(imaginary.CompareTo(BigRational.MinusOne) == 0) result = "-i";
+                else result = imaginary.ToString(precision, format) + "i";
             }
             else if(!real.IsZero)
             {
@@ -227,7 +242,9 @@ namespace PE___sqrt.BigNumbers
                 if(!imaginary.IsZero)
                 {
                     result += imaginary.Negative?" - ":" + ";
-                    result += BigRational.Abs(imaginary).ToString(precision, format) + "i";
+                    if(imaginary.CompareTo(BigRational.One) == 0) result += "i";
+                    else if(imaginary.CompareTo(BigRational.MinusOne) == 0) result += "-i";
+                    else result += imaginary.ToString(precision, format) + "i";
                 }
             }
             else result = "0";

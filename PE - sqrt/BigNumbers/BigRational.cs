@@ -132,8 +132,8 @@ namespace PE___sqrt.BigNumbers
             if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
 
             int index;
-            while( (index = str.LastIndexOf(format.NumberDecimalSeparator)) == str.Length - format.NumberDecimalSeparator.Length )
-                str = str.Remove(index);
+//            while( (index = str.LastIndexOf(format.NumberDecimalSeparator)) == str.Length - format.NumberDecimalSeparator.Length )
+//                str = str.Remove(index);
 
             //If at this point the string is empty, it contained some variation of 0
             if(str.Length == 0) return Zero;
@@ -148,6 +148,7 @@ namespace PE___sqrt.BigNumbers
 
             if(index != -1)
             {
+                if(index == str.Length - format.NumberDecimalSeparator.Length) throw new FormatException("Decimal separator should be followed by digits");
                 str = str.Remove(index, format.NumberDecimalSeparator.Length);
                 //Set denominator to 10^(number of digits after decimal separator)
                 result.denominator = BigInteger.Pow(10, str.Length - index - format.NumberDecimalSeparator.Length + 1);
@@ -179,8 +180,8 @@ namespace PE___sqrt.BigNumbers
             if(format == null) format = CultureInfo.CurrentCulture.NumberFormat;
 
             int index;
-            while( (index = str.LastIndexOf(format.NumberDecimalSeparator)) == str.Length - format.NumberDecimalSeparator.Length )
-                str = str.Remove(index);
+//            while( (index = str.LastIndexOf(format.NumberDecimalSeparator)) == str.Length - format.NumberDecimalSeparator.Length )
+//                str = str.Remove(index);
 
             //If at this point the string is empty, it contained some variation of 0
             if(str.Length == 0) return true;
@@ -193,6 +194,7 @@ namespace PE___sqrt.BigNumbers
 
             if(index != -1)
             {
+                if(index == str.Length - format.NumberDecimalSeparator.Length) return false;
                 str = str.Remove(index, format.NumberDecimalSeparator.Length);
                 //Set denominator to 10^(number of digits after decimal separator)
                 result.denominator = BigInteger.Pow(10, str.Length - index - format.NumberDecimalSeparator.Length + 1);

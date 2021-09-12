@@ -101,7 +101,7 @@ namespace PE___sqrt.BigNumbers
                             string imComp = str.Substring(0, index2);
                             if(index != 0 && index != 1 && index != imComp.Length - 1) return false;
 
-                            imComp = imComp.Remove(index, 1);
+                            imComp = imComp.Remove(imComp.IndexOf('i'), 1);
                             if(imComp.Length == 0) result.imaginary = BigRational.One;
                             else if(imComp.Length == 1)
                             {
@@ -119,7 +119,8 @@ namespace PE___sqrt.BigNumbers
                         
                             if(index != index2+1 && index != str.Length - 1) return false;
 
-                            string imComp = str.Substring(index2).Remove(index, 1);
+                            string imComp = str.Substring(index2);
+                            imComp = imComp.Remove(imComp.IndexOf('i'), 1);
 
                             if(imComp.Length == 0) result.imaginary = BigRational.One;
                             else if(imComp.Length == 1)
@@ -146,7 +147,7 @@ namespace PE___sqrt.BigNumbers
                         string imComp = str.Substring(0, index2);
                         if(index != 0 && index != 1 && index != imComp.Length - 1) return false;
 
-                        imComp = imComp.Remove(index, 1);
+                        imComp = imComp.Remove(imComp.IndexOf('i'), 1);
                         if(imComp.Length == 0) result.imaginary = BigRational.One;
                         else if(imComp.Length == 1)
                         {
@@ -164,7 +165,8 @@ namespace PE___sqrt.BigNumbers
                         
                         if(index != index2+1 && index != str.Length - 1) return false;
 
-                        string imComp = str.Substring(index2).Remove(index, 1);
+                        string imComp = str.Substring(index2);
+                        imComp = imComp.Remove(imComp.IndexOf('i'), 1);
                         if(imComp.Length == 0) result.imaginary = BigRational.One;
                         else if(imComp.Length == 1)
                         {

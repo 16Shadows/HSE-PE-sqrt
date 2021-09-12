@@ -53,6 +53,7 @@ namespace PE___sqrt.BigNumbers
                 if(index2 == -1)
                 {
                     //No real part
+                    if(index != str.Length - 1) throw new FormatException("Invalid complex number format!");
                     str = str.Remove(index, 1);
                     return new BigComplex(BigRational.Zero, BigRational.Parse(str));
                 }
@@ -121,6 +122,8 @@ namespace PE___sqrt.BigNumbers
 
                 if(index2 == -1)
                 {
+                    if(index != str.Length - 1) return false;
+
                     //No real part
                     str = str.Remove(index, 1);
                     

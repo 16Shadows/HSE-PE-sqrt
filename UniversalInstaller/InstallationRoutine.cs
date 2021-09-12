@@ -17,13 +17,13 @@ namespace UniversalInstaller
         public static bool isRunning;
 
         public static string FolderName { get; private set; }
-        public static string shortcutExe { get; private set; }
+        public static string ShortcutExe { get; private set; }
 
         private static long installerStart;
 
         public static void PreParse()
         {
-            using(FileStream thisFile = File.OpenRead( Assembly.GetExecutingAssembly().Location))
+            using(FileStream thisFile = File.OpenRead( Assembly.GetExecutingAssembly().Location ))
             {
                 using (BinaryReader reader = new BinaryReader(thisFile))
                 {
@@ -35,7 +35,7 @@ namespace UniversalInstaller
                     thisFile.Seek(offset, SeekOrigin.Begin);
 
                     FolderName = reader.ReadString();
-                    shortcutExe = reader.ReadString();
+                    ShortcutExe = reader.ReadString();
 
                     installerStart = thisFile.Position;
                 }
@@ -115,6 +115,9 @@ namespace UniversalInstaller
                                     }
                                     Directory.CreateDirectory(Path.GetDirectoryName(filename));
                                 }
+
+                                if(File.Exists(filename))
+                                    File.Delete(filename);
                             
                                 //Unpack the file
                                 unpackedFiles.Add(filename);
@@ -153,6 +156,9 @@ namespace UniversalInstaller
                                     Directory.CreateDirectory(Path.GetDirectoryName(filename));
                                 }
                             
+                                if(File.Exists(filename))
+                                    File.Delete(filename);
+
                                 //Unpack the file
                                 unpackedFiles.Add(filename);
                                 using(otherFile = File.OpenWrite(filename))

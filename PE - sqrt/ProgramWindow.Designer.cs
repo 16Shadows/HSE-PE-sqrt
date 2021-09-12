@@ -54,6 +54,7 @@ namespace PE___sqrt
             this.historyBox = new System.Windows.Forms.TextBox();
             this.buttonImaginaryUnit = new System.Windows.Forms.Button();
             this.buttonPlus = new System.Windows.Forms.Button();
+            this.labelLoadState = new System.Windows.Forms.Label();
             this.ProgramMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -389,12 +390,23 @@ namespace PE___sqrt
             this.buttonPlus.UseVisualStyleBackColor = false;
             this.buttonPlus.Click += new System.EventHandler(this.buttonPlus_Click);
             // 
+            // labelLoadState
+            // 
+            this.labelLoadState.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.labelLoadState.Location = new System.Drawing.Point(0, 225);
+            this.labelLoadState.Name = "labelLoadState";
+            this.labelLoadState.Size = new System.Drawing.Size(771, 23);
+            this.labelLoadState.TabIndex = 21;
+            this.labelLoadState.Text = "Loading localization, please wait...";
+            this.labelLoadState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // ProgramWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(196)))), ((int)(((byte)(238)))));
             this.ClientSize = new System.Drawing.Size(771, 465);
+            this.Controls.Add(this.labelLoadState);
             this.Controls.Add(this.buttonPlus);
             this.Controls.Add(this.buttonImaginaryUnit);
             this.Controls.Add(this.historyBox);
@@ -458,5 +470,6 @@ namespace PE___sqrt
         private System.Windows.Forms.TextBox historyBox;
         private System.Windows.Forms.Button buttonImaginaryUnit;
         private System.Windows.Forms.Button buttonPlus;
+        private System.Windows.Forms.Label labelLoadState;
     }
 }

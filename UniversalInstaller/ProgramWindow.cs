@@ -27,7 +27,7 @@ namespace UniversalInstaller
         State state = State.STANDBY;
         Task installationTask = null;
 
-        private ToolStripMenuItem[] languageItems;
+        private readonly ToolStripMenuItem[] languageItems;
 
         public ProgramWindow()
         {
@@ -277,8 +277,8 @@ namespace UniversalInstaller
                 if(fieldSelectDirectory.Text.IndexOf('\\') == fieldSelectDirectory.Text.Length - 1 || fieldSelectDirectory.Text.IndexOf('/') == fieldSelectDirectory.Text.Length - 1)
                     fieldSelectDirectory.Text = fieldSelectDirectory.Text.Remove(fieldSelectDirectory.Text.Length - 1);
 
-                if(checkBoxDesktopShortcut.Checked) CreateShortcut("Desktop", fieldSelectDirectory.Text + "\\" + InstallationRoutine.shortcutExe);
-                if(checkBoxStartMenuShortcut.Checked) CreateShortcut("StartMenu", fieldSelectDirectory.Text + "\\" + InstallationRoutine.shortcutExe);
+                if(checkBoxDesktopShortcut.Checked) CreateShortcut("Desktop", fieldSelectDirectory.Text + "\\" + InstallationRoutine.ShortcutExe);
+                if(checkBoxStartMenuShortcut.Checked) CreateShortcut("StartMenu", fieldSelectDirectory.Text + "\\" + InstallationRoutine.ShortcutExe);
 
             }
             else
@@ -300,7 +300,7 @@ namespace UniversalInstaller
             WshShell shell = new WshShell();
             string address = (string)shell.SpecialFolders.Item(ref loc) + "\\" + System.IO.Path.GetFileNameWithoutExtension(obj) + ".lnk";
             IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(address);
-            shortcut.Description = InstallationRoutine.shortcutExe;
+            shortcut.Description = obj;
             shortcut.TargetPath = obj;
             shortcut.WorkingDirectory = System.IO.Path.GetDirectoryName(obj);
             shortcut.Save();

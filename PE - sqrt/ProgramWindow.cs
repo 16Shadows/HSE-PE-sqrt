@@ -4,6 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace PE___sqrt
 {
@@ -11,6 +14,9 @@ namespace PE___sqrt
 
     public partial class ProgramWindow : Form
     {
+        const string update_request_uri = "https://api.github.com/repos/16Shadows/TimeToSqrtRelease/releases/latest";
+        const string current_version = "v1.5.0";
+
         private CultureInfo activeCulture;
         private string activeLanguage;
         private int activeLanguageItem;
@@ -27,8 +33,9 @@ namespace PE___sqrt
             precision = 5;
             historyLength = 0;
 
-            Task<bool> loadTask = Task.Run( () => locale.Load() );
+            Task<bool> loadTask = new Task<bool>(() => locale.Load());
             loadTask.GetAwaiter().OnCompleted(OnLocaleLoaded);
+            loadTask.Start();
 
             InitializeComponent();
 
@@ -56,7 +63,10 @@ namespace PE___sqrt
                     { "InputBoxButtonCancel", "Cancel" },
                     { "PrecisionParseFailed", "Input a non-negative whole number!" },
                     { "Done", "Done" },
-                    { "Calculating", "Calculating..." }
+                    { "Calculating", "Calculating..." },
+                    { "UpdateCheck", "Cheking for updates, please wait..." },
+                    { "UpdateFound", "A new version has been released ({0}). Do you want to update?" },
+                    { "UpdateFailed", "Failed to check for updates. Error:" }
                 }));
             }
 
@@ -88,6 +98,62 @@ namespace PE___sqrt
 
                 i++;
             }
+
+            labelLoadState.Text = locale.Languages[activeLanguage].GetPhrase("UpdateCheck");
+
+            Task updateTask = new Task(() =>
+            {
+                HttpWebRequest request = WebRequest.CreateHttp(update_request_uri);
+                request.Method = "GET";
+                request.Accept = "application/vnd.github.v3+json";
+                request.UserAgent = "ApplicationUpdater";
+
+                try
+                {
+                    if(File.Exists("installer.exe"))
+                        File.Delete("installer.exe");
+
+                    HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+                    string responseString;
+
+                    using(StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        responseString = reader.ReadToEnd();
+
+                    JObject json = JObject.Parse(responseString);
+                    
+                    if(!json["tag_name"].ToString().Equals(current_version) && MessageBox.Show(string.Format(locale.Languages[activeLanguage].GetPhrase("UpdateFound"), json["tag_name"].ToString()), "Time To Sqrt", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        using(WebClient client = new WebClient())
+                            client.DownloadFile(json["assets"][0]["browser_download_url"].ToString(), "installer.exe");
+
+                        string assembly = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+                        System.Diagnostics.Process process = System.Diagnostics.Process.Start("installer.exe", $"\"{Path.GetDirectoryName(assembly)}\" \"{assembly}\"");
+                        Environment.Exit(0);
+                    }
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show(locale.Languages[activeLanguage].GetPhrase("UpdateFailed") + "\n" + e.Message, "Time To Sqrt", MessageBoxButtons.OK);
+                }
+                finally
+                {
+                    try
+                    {
+                        if(File.Exists("installer.exe"))
+                            File.Delete("installer.exe");
+                    }
+                    catch { }
+                }
+            });
+            updateTask.GetAwaiter().OnCompleted(OnUpdateFinished);
+            updateTask.Start();
+        }
+
+        void OnUpdateFinished()
+        {
+            labelLoadState.Visible = false;
 
             SetUIActive(true);
             ReloadLocalizedItems();
@@ -140,6 +206,8 @@ namespace PE___sqrt
             buttonCalculate.Visible = active;
             buttonPoint.Visible = active;
             buttonMinus.Visible = active;
+            buttonPlus.Visible = active;
+            buttonImaginaryUnit.Visible = active;
         }
 
         void SetInputActive(bool active = true)
@@ -160,6 +228,8 @@ namespace PE___sqrt
             buttonErase.Enabled = active;
             buttonEraseAll.Enabled = active;
             buttonCalculate.Enabled = active;
+            buttonPlus.Enabled = active;
+            buttonImaginaryUnit.Enabled = active;
         }
 
         private void button1_Click(object sender, EventArgs e)

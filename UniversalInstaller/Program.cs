@@ -14,6 +14,9 @@ namespace UniversalInstaller
         [STAThread]
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             try
             {
                 InstallationRoutine.PreParse();
@@ -21,18 +24,30 @@ namespace UniversalInstaller
             catch(Exception e)
             {
                 MessageBox.Show("Critical error: " + e.Message, "UniversalInstaller", MessageBoxButtons.OK);
+                Console.Error.Write(e.Message);
                 Environment.Exit(1);
             }
 
             if(args.Length == 0)
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new ProgramWindow());
             }
             else
             {
-                if(!InstallationRoutine.Run(args[0])) Environment.Exit(1);
+                System.Threading.Thread.Sleep(1000);
+                try
+                {
+                    InstallationRoutine.Run(args[0]);
+                }
+                catch(Exception e)
+                {
+                    MessageBox.Show("Installation error:\n" + e.Message);
+                    Environment.Exit(1);
+                }
+                if(args.Length > 1)
+                {
+                    System.Diagnostics.Process.Start(args[1]);
+                }
             }
         }
     }

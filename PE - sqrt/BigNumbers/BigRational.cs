@@ -404,7 +404,7 @@ namespace PE___sqrt.BigNumbers
                     digits = (int)Math.Floor(BigInteger.Log10(quotient));
                     quotient = BigInteger.Divide( value.numerator * BigInteger.Pow(10, precision), value.denominator );
                     result += quotient.ToString(CultureInfo.InvariantCulture);
-                    result = result.Insert(digits + (this<Zero?2:1), format.NumberDecimalSeparator).TrimEnd(parseToTrim);
+                    result = result.Insert(digits + (this<Zero?2:1), format.NumberDecimalSeparator).TrimEnd(parseToTrim).TrimEnd(new char[] { '.' });
                 }
                 else
                 {
@@ -412,7 +412,7 @@ namespace PE___sqrt.BigNumbers
                     quotient = BigInteger.Divide( value.numerator * BigInteger.Pow(10, precision), value.denominator );
                     digits = (int)Math.Floor(BigInteger.Log10(quotient));
                     result += new string('0', precision - digits - 1);
-                    result += quotient.ToString().TrimEnd(parseToTrim);
+                    result += quotient.ToString().TrimEnd(parseToTrim).TrimEnd(new char[] { '.' });
                 }
             }
             else result += quotient.ToString(format);

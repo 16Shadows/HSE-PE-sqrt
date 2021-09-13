@@ -15,7 +15,7 @@ namespace PE___sqrt
     public partial class ProgramWindow : Form
     {
         const string update_request_uri = "https://api.github.com/repos/16Shadows/TimeToSqrtRelease/releases/latest";
-        const string current_version = "v1.7.5";
+        const string current_version = "v1.7.6";
 
         private CultureInfo activeCulture;
         private string activeLanguage;
@@ -335,10 +335,12 @@ namespace PE___sqrt
             inputField.Text = "";
         }
 
+        BigNumbers.BigComplex complexValue;
+
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             if(inputField.Text.Length == 0) errorField.Text = locale.Languages[activeLanguage].GetPhrase("ErrorInputEmpty");
-            else if(BigNumbers.BigComplex.TryParse(inputField.Text, out BigNumbers.BigComplex complexValue, activeCulture.NumberFormat))
+            else if(BigNumbers.BigComplex.TryParse(inputField.Text, out complexValue, activeCulture.NumberFormat))
             {
                 SetInputActive(false);
                 errorField.Text = locale.Languages[activeLanguage].GetPhrase("Calculating");

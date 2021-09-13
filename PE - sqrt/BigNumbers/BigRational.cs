@@ -55,6 +55,14 @@ namespace PE___sqrt.BigNumbers
             }
         }
 
+        public int Precision
+        {
+            get
+            {
+                return (int)Math.Ceiling(BigInteger.Log10(denominator));
+            }
+        }
+
         private BigInteger numerator;
         private BigInteger denominator;
 

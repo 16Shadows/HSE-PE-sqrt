@@ -216,7 +216,14 @@ namespace PE___sqrt.BigNumbers
         //Find square root of the value
         public static BigComplex Sqrt(BigComplex value, int precision = 0)
         {
-            BigRational t = BigRational.Sqrt( BigRational.Sqr(value.real) + BigRational.Sqr(value.imaginary), precision );
+            BigComplex complex;
+            complex.real = value.real;
+            complex.real.Reduce();
+            complex.imaginary = value.imaginary;
+            complex.imaginary.Reduce();
+            
+            BigRational t = BigRational.Sqrt( BigRational.Sqr(value.real) + BigRational.Sqr(value.imaginary), Math.Max(complex.real.Precision, complex.imaginary.Precision));
+            t.Reduce();
             return new BigComplex( BigRational.Sqrt((t + value.real)/BigRational.Two, precision), value.imaginary.SignNoZero * BigRational.Sqrt((t - value.real)/BigRational.Two, precision) );
         }
 

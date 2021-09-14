@@ -17,6 +17,8 @@ Calculating Calculating...
 UpdateCheck Checking for updates, please wait...
 UpdateFound A new version has been released ({0}). Do you want to update?
 UpdateFailed Failed to check for updates. Error:
+Help Help
+Manual Manual
 ENDLANGUAGE
 
 LANGUAGE ru
@@ -38,6 +40,8 @@ Calculating Вычисляем...
 UpdateCheck Проверяем наличие обновлений, пожалуйста, подождите...
 UpdateFound Вышла новая версия ({0}). Вы хотите обновить приложение?
 UpdateFailed Не удалось проверить наличие обновлений. Ошибка:
+Help Помощь
+Manual Инструкция
 ENDLANGUAGE
 
 LANGUAGE es
@@ -59,6 +63,8 @@ Calculating Сalcular...
 UpdateCheck Buscando actualizaciones, espere ...
 UpdateFound Se ha lanzado una nueva versión ({0}). N¿Desea actualizar?
 UpdateFailed No se pudo buscar actualizaciones. Error:
+Help Ayudar
+Manual Manual
 ENDLANGUAGE
 
 LANGUAGE hi
@@ -80,6 +86,8 @@ Calculating गिना जा रहा है...
 UpdateCheck अपडेट के लिए जाँच की जा रही है, कृपया प्रतीक्षा करें...
 UpdateFound एक नया संस्करण जारी किया गया है ({0}). क्या आप अपडेट करना चाहते हैं?
 UpdateFailed अद्यतनों की जाँच करने में विफल। त्रुटि:
+Help मदद
+Manual हाथ से किया हुआ
 ENDLANGUAGE
 
 LANGUAGE zh
@@ -101,4 +109,6 @@ Calculating 计算...
 UpdateCheck 正在检查更新，请稍候...
 UpdateFound 已发布新版本 ({0})。 您要更新吗？
 UpdateFailed 未能检查更新。 错误：
+Help 帮助
+Manual 手动的
 ENDLANGUAGE

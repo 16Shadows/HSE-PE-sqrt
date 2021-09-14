@@ -33,7 +33,9 @@ namespace PE___sqrt
             this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.languagesMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.precisionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supportMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.manualMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.inputField = new System.Windows.Forms.TextBox();
             this.errorField = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
@@ -64,7 +66,7 @@ namespace PE___sqrt
             this.ProgramMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(196)))), ((int)(((byte)(238)))));
             this.ProgramMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsMenuItem,
-            this.supportMenuItem});
+            this.helpMenuItem});
             this.ProgramMenu.Location = new System.Drawing.Point(0, 0);
             this.ProgramMenu.Name = "ProgramMenu";
             this.ProgramMenu.Size = new System.Drawing.Size(771, 24);
@@ -94,12 +96,28 @@ namespace PE___sqrt
             this.precisionMenuItem.Text = "Precision";
             this.precisionMenuItem.Click += new System.EventHandler(this.precisionMenuItem_Click);
             // 
+            // helpMenuItem
+            // 
+            this.helpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.supportMenuItem,
+            this.manualMenuItem});
+            this.helpMenuItem.Name = "helpMenuItem";
+            this.helpMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpMenuItem.Text = "Help";
+            // 
             // supportMenuItem
             // 
             this.supportMenuItem.Name = "supportMenuItem";
-            this.supportMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.supportMenuItem.Size = new System.Drawing.Size(180, 22);
             this.supportMenuItem.Text = "Support";
             this.supportMenuItem.Click += new System.EventHandler(this.supportMenuItem_Click);
+            // 
+            // manualMenuItem
+            // 
+            this.manualMenuItem.Name = "manualMenuItem";
+            this.manualMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.manualMenuItem.Text = "Manual";
+            this.manualMenuItem.Click += new System.EventHandler(this.manualMenuItem_Click);
             // 
             // inputField
             // 
@@ -447,7 +465,7 @@ namespace PE___sqrt
 
         private System.Windows.Forms.MenuStrip ProgramMenu;
         private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem supportMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpMenuItem;
         private System.Windows.Forms.ToolStripMenuItem languagesMenuItem;
         private System.Windows.Forms.ToolStripMenuItem precisionMenuItem;
         private System.Windows.Forms.TextBox inputField;
@@ -471,5 +489,7 @@ namespace PE___sqrt
         private System.Windows.Forms.Button buttonImaginaryUnit;
         private System.Windows.Forms.Button buttonPlus;
         private System.Windows.Forms.Label labelLoadState;
+        private System.Windows.Forms.ToolStripMenuItem supportMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem manualMenuItem;
     }
 }

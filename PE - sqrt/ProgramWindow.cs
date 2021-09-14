@@ -15,7 +15,7 @@ namespace PE___sqrt
     public partial class ProgramWindow : Form
     {
         const string update_request_uri = "https://api.github.com/repos/16Shadows/TimeToSqrtRelease/releases/latest";
-        const string current_version = "v1.7.6";
+        const string current_version = "v1.7.7";
 
         private CultureInfo activeCulture;
         private string activeLanguage;
@@ -66,7 +66,9 @@ namespace PE___sqrt
                     { "Calculating", "Calculating..." },
                     { "UpdateCheck", "Cheking for updates, please wait..." },
                     { "UpdateFound", "A new version has been released ({0}). Do you want to update?" },
-                    { "UpdateFailed", "Failed to check for updates. Error:" }
+                    { "UpdateFailed", "Failed to check for updates. Error:" },
+                    { "Help", "Help" },
+                    { "Manual", "Manual" }
                 }));
             }
 
@@ -162,6 +164,8 @@ namespace PE___sqrt
         void ReloadLocalizedItems()
         {
             languagesMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Languages");
+            helpMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Help");
+            manualMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Manual");
             supportMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Support");
             settingsMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Settings");
             precisionMenuItem.Text = locale.Languages[activeLanguage].GetPhrase("Precision");
@@ -407,6 +411,11 @@ namespace PE___sqrt
         private void supportMenuItem_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://bestsupport915430225.wordpress.com/");
+        }
+
+        private void manualMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("Manual.docx");
         }
     }
 }
